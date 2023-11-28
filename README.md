@@ -49,10 +49,10 @@ The Scrum workflow follows a cyclical pattern:
 Below are some diagrams illustrating the key concepts of Agile Scrum:
 
 **Scrum Framework Diagram:**
-![Scrum Framework Diagram](https://github.com/JU-CSE-28/Agile-Scrum-Project/blob/main/Agile-Scrum/images/workflow.gif)
+![Scrum Framework Diagram](https://github.com/moon362/E-commerce-System/blob/main/ReadMe%20Images/workflow.gif)
 
 **Scrum Workflow Diagram:**
-![Scrum Workflow Diagram](https://github.com/JU-CSE-28/Agile-Scrum-Project/blob/main/Agile-Scrum/images/workflow.png)
+![Scrum Workflow Diagram](https://github.com/moon362/E-commerce-System/blob/main/ReadMe%20Images/workflow.png)
 
 ## 7. Additional Resources
 To learn more about Agile Scrum, refer to the following resources:
