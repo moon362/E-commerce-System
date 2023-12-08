@@ -1,4 +1,16 @@
 # E-commerce-System
+# Bug Hunter
+We, as students of the Department of Computer Science and Engineering at Jahangirnagar University, are currently working on an exciting project named the E-commerce System. This project aims to create a robust and user-friendly online platform that facilitates seamless shopping experiences for customers. With a focus on features such as secure payment gateways, advanced search functionalities, and efficient order tracking.
+# Team Members
+
+| Name                       | Email                                |
+| -------------------------- | ------------------------------------ |
+| Shreya Nag Riya            | nag.stu2018@juniv.edu                |
+| Umme Faria Moon            | moon.stu20181@juniv.edu              |
+| MD. Ahsan Habib Rasel      | ahsanhabib.stu2018@juniv.edu         |
+| MD. Minhaj Uddin           | minhaj.stu2018@juniv.edu              |
+| Ajoy Sarker                | ajoy.stu20181@juniv.edu              |
+
 
 # Agile Scrum Methodology
 
