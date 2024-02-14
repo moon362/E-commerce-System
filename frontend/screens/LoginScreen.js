@@ -3,10 +3,7 @@ import { Link } from "react-router-dom";
 import { Grid, TextField, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  login
- 
-} from "../redux/slices/userSlice";
+import { login } from "../redux/slices/userSlice";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
@@ -40,9 +37,9 @@ function LoginScreen({ location, history }) {
     }
   }, [history, userDetails, redirect]);
 
-  const submitHandler = (e) => {
+  const submit_handler = (e) => {
     e.preventDefault();
-    console.log(email, password)
+    console.log(email, password);
     dispatch(login(email, password));
   };
 
@@ -53,7 +50,7 @@ function LoginScreen({ location, history }) {
       </Typography>
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
-      <form className={classes.form} onSubmit={submitHandler}>
+      <form className={classes.form} onSubmit={submit_handler}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
