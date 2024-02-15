@@ -17,44 +17,40 @@ import Loader from "../components/Loader";
 import { useDispatch, useSelector } from "react-redux";
 
 /* ACTION CREATORS */
-import {
-  
-  payOrder,
-  
-} from "../redux/slices/orderSlice";
+import { payOrder } from "../redux/slices/orderSlice";
 
- 
-function OrderScreen({ history  }) {
- 
+function OrderScreen({ history }) {
   const dispatch = useDispatch();
 
   const [sdkReady, setSdkReady] = useState(false);
 
   /* PULLING A PART OF STATE FROM THE ACTUAL STATE IN THE REDUX STORE */
-  const order  = useSelector((state) => state.order );
-  const { orderDetails, error, loading } = order ;
-  console.log(orderDetails )
+  const order = useSelector((state) => state.order);
+  const { orderDetails, error, loading } = order;
+  console.log(orderDetails);
   // const orderPay = useSelector((state) => state.orderPay);
   // const { loading: loadingPay, success: successPay } = orderPay;
 
   // const orderDeliver = useSelector((state) => state.orderDeliver);
   // const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
-  const userLogin = useSelector((state) => state.user );
+  const userLogin = useSelector((state) => state.user);
   const { userDetails } = userLogin;
 
   let updatedOrderDetails = orderDetails;
 
-  if (updatedOrderDetails && updatedOrderDetails.orderItems && updatedOrderDetails.orderItems.length > 0) {
-    const itemsPrice = updatedOrderDetails.orderItems.reduce(
-      (acc, item) => acc + item.price * item.qty,
-      0
-    ).toFixed(2);
-  
+  if (
+    updatedOrderDetails &&
+    updatedOrderDetails.orderItems &&
+    updatedOrderDetails.orderItems.length > 0
+  ) {
+    const itemsPrice = updatedOrderDetails.orderItems
+      .reduce((acc, item) => acc + item.price * item.qty, 0)
+      .toFixed(2);
+
     updatedOrderDetails = { ...updatedOrderDetails, itemsPrice };
   }
-  
- 
+
   // PAYPAL BUTTONS
   const add_pay_pal_script = () => {
     const script = document.createElement("script");
@@ -72,7 +68,7 @@ function OrderScreen({ history  }) {
     // IS USER IS NOT LOGGED IN THEN REDIRECT TO LOGIN PAGE
     if (!userDetails) {
       history.push("/login");
-    }else if (!orderDetails.isPaid) {
+    } else if (!orderDetails.isPaid) {
       // ACTIVATING PAYPAL SCRIPTS
       if (!window.paypal) {
         add_pay_pal_script();
@@ -80,30 +76,27 @@ function OrderScreen({ history  }) {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderDetails,    history, userDetails]);
-  
-  // Calculate the total price of each individual item
-const calculate_items_price = () => {
-  if (orderDetails.orderItems && orderDetails.orderItems.length > 0) {
-    return orderDetails.orderItems.reduce((total, item) => {
-      const itemPrice = parseFloat(item.price) * item.qty;
-      return total + itemPrice;
-    }, 0);
-  }
-  return 0;
-};
+  }, [dispatch, orderDetails, history, userDetails]);
 
-// Call the calculate_items_price method to get the total price
-const itemsPrice = calculate_items_price();
+  // Calculate the total price of each individual item
+  const calculate_items_price = () => {
+    if (orderDetails.orderItems && orderDetails.orderItems.length > 0) {
+      return orderDetails.orderItems.reduce((total, item) => {
+        const itemPrice = parseFloat(item.price) * item.qty;
+        return total + itemPrice;
+      }, 0);
+    }
+    return 0;
+  };
+
+  // Call the calculate_items_price method to get the total price
+  const itemsPrice = calculate_items_price();
 
   /* HANDLERS */
   const success_payment_handler = (paymentResult) => {
     dispatch(payOrder(orderDetails._id, paymentResult));
-    console.log(orderDetails._id)
-
+    console.log(orderDetails._id);
   };
-
-   
 
   return loading ? (
     <Loader />
@@ -124,12 +117,15 @@ const itemsPrice = calculate_items_price();
 
               <p>
                 <strong>Email: </strong>
-                <a href={`mailto:${orderDetails.User.username}`}>{orderDetails.User.username}</a>
+                <a href={`mailto:${orderDetails.User.username}`}>
+                  {orderDetails.User.username}
+                </a>
               </p>
 
               <p>
                 <strong>Shipping Address: </strong>
-                {orderDetails.shippingAddress.address}, {orderDetails.shippingAddress.city},{" "}
+                {orderDetails.shippingAddress.address},{" "}
+                {orderDetails.shippingAddress.city},{" "}
                 {orderDetails.shippingAddress.postalCode},{" "}
                 {orderDetails.shippingAddress.country}
               </p>
@@ -156,7 +152,10 @@ const itemsPrice = calculate_items_price();
 
               {orderDetails.isPaid ? (
                 <Message variant="success">
-                  Paid   {orderDetails.paidAt ? orderDetails.paidAt.substring(0, 10) : null}
+                  Paid{" "}
+                  {orderDetails.paidAt
+                    ? orderDetails.paidAt.substring(0, 10)
+                    : null}
                 </Message>
               ) : (
                 <Message variant="warning">Not Paid</Message>
@@ -242,7 +241,7 @@ const itemsPrice = calculate_items_price();
 
               {!orderDetails.isPaid && (
                 <ListGroup.Item>
-                  {loading  && <Loader />}
+                  {loading && <Loader />}
                   {!sdkReady ? (
                     <Loader />
                   ) : (
@@ -254,8 +253,6 @@ const itemsPrice = calculate_items_price();
                 </ListGroup.Item>
               )}
             </ListGroup>
-
-             
           </Card>
         </Col>
       </Row>
