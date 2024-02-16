@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>screens/OrderScreen.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Loader.html">Loader</a><ul class='methods'><li data-type='method'><a href="module-Loader.html#.Loader">Loader</a></li></ul></li><li><a href="module-LoginScreen.html">LoginScreen</a><ul class='methods'><li data-type='method'><a href="module-LoginScreen.html#~LoginScreen">LoginScreen</a></li></ul></li><li><a href="module-Message.html">Message</a><ul class='methods'><li data-type='method'><a href="module-Message.html#.Message">Message</a></li><li data-type='method'><a href="module-Message.html#.StyledAlert">StyledAlert</a></li></ul></li><li><a href="module-OrderScreen.html">OrderScreen</a><ul class='methods'><li data-type='method'><a href="module-OrderScreen.html#~OrderScreen">OrderScreen</a></li></ul></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">screens/OrderScreen.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * OrderScreen component for displaying and handling user orders.
+ * @module OrderScreen
+ * @param {Object} props - React component props.
+ * @param {Object} props.history - The history object for navigation.
+ * @returns {JSX.Element} - Rendered component.
+ */
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
+import { PayPalButton } from "react-paypal-button-v2";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+import { useDispatch, useSelector } from "react-redux";
+import { payOrder } from "../redux/slices/orderSlice";
+
+/**
+ * React functional component for displaying and handling user orders.
+ * @function
+ * @param {Object} props - React component props.
+ * @returns {JSX.Element} - Rendered component.
+ */
+function OrderScreen({ history }) {
+  const dispatch = useDispatch();
+  const [sdkReady, setSdkReady] = useState(false);
+
+  // Redux state
+  const order = useSelector((state) => state.order);
+  const { orderDetails, error, loading } = order;
+
+  // Redux user state
+  const userLogin = useSelector((state) => state.user);
+  const { userDetails } = userLogin;
+
+  let updatedOrderDetails = orderDetails;
+
+  // Update order details with total items price
+  if (
+    updatedOrderDetails &amp;&amp;
+    updatedOrderDetails.orderItems &amp;&amp;
+    updatedOrderDetails.orderItems.length > 0
+  ) {
+    const itemsPrice = updatedOrderDetails.orderItems
+      .reduce((acc, item) => acc + item.price * item.qty, 0)
+      .toFixed(2);
+
+    updatedOrderDetails = { ...updatedOrderDetails, itemsPrice };
+  }
+
+  // Add PayPal script dynamically
+  const add_pay_pal_script = () => {
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src =
+      "https://www.paypal.com/sdk/js?client-id=AYgflmsaM7ccNLPlKUiufIyw8-spOE4UuS5XyyTCvhzheA-1EUcZF9qGlgXBZaSKcP5BY0zTc9WgINKe";
+    script.async = true;
+    script.onload = () => {
+      setSdkReady(true);
+    };
+    document.body.appendChild(script);
+  };
+
+  // useEffect to check user login and activate PayPal scripts
+  useEffect(() => {
+    if (!userDetails) {
+      history.push("/login");
+    } else if (!orderDetails.isPaid) {
+      if (!window.paypal) {
+        add_pay_pal_script();
+      } else {
+        setSdkReady(true);
+      }
+    }
+  }, [dispatch, orderDetails, history, userDetails]);
+
+  // Calculate total price of each individual item
+  const calculate_items_price = () => {
+    if (orderDetails.orderItems &amp;&amp; orderDetails.orderItems.length > 0) {
+      return orderDetails.orderItems.reduce((total, item) => {
+        const itemPrice = parseFloat(item.price) * item.qty;
+        return total + itemPrice;
+      }, 0);
+    }
+    return 0;
+  };
+
+  // Call calculate_items_price method to get total price
+  const itemsPrice = calculate_items_price();
+
+  /**
+   * Handler for successful payment.
+   * @function
+   * @param {Object} paymentResult - PayPal payment result.
+   */
+  const success_payment_handler = (paymentResult) => {
+    dispatch(payOrder(orderDetails._id, paymentResult));
+    console.log(orderDetails._id);
+  };
+
+  // Component rendering
+  return loading ? (
+    &lt;Loader />
+  ) : error ? (
+    &lt;Message variant="danger">{error}&lt;/Message>
+  ) : (
+    &lt;div>
+      &lt;h1>Order: {orderDetails._id}&lt;/h1>
+      &lt;Row>
+        &lt;Col md={8}>
+          &lt;ListGroup variant="flush">
+            {/* Shipping details */}
+            &lt;ListGroup.Item>
+              &lt;h2>Shipping&lt;/h2>
+              &lt;p>
+                &lt;strong>Name: {orderDetails.User.name}&lt;/strong>
+              &lt;/p>
+              &lt;p>
+                &lt;strong>Email: &lt;/strong>
+                &lt;a href={`mailto:${orderDetails.User.username}`}>
+                  {orderDetails.User.username}
+                &lt;/a>
+              &lt;/p>
+              &lt;p>
+                &lt;strong>Shipping Address: &lt;/strong>
+                {orderDetails.shippingAddress.address},{" "}
+                {orderDetails.shippingAddress.city},{" "}
+                {orderDetails.shippingAddress.postalCode},{" "}
+                {orderDetails.shippingAddress.country}
+              &lt;/p>
+              {/* Display delivery status */}
+              {orderDetails.isDeliver ? (
+                &lt;Message variant="success">
+                  Delivered on{" "}
+                  {orderDetails.deliveredAt
+                    ? orderDetails.deliveredAt.substring(0, 10)
+                    : null}
+                &lt;/Message>
+              ) : (
+                &lt;Message variant="warning">Not Delivered&lt;/Message>
+              )}
+            &lt;/ListGroup.Item>
+
+            {/* Payment details */}
+            &lt;ListGroup.Item>
+              &lt;h2>Payment&lt;/h2>
+              &lt;p>
+                &lt;strong>Payment Method: &lt;/strong>
+                {orderDetails.paymentMethod}
+              &lt;/p>
+              {/* Display payment status */}
+              {orderDetails.isPaid ? (
+                &lt;Message variant="success">
+                  Paid{" "}
+                  {orderDetails.paidAt
+                    ? orderDetails.paidAt.substring(0, 10)
+                    : null}
+                &lt;/Message>
+              ) : (
+                &lt;Message variant="warning">Not Paid&lt;/Message>
+              )}
+            &lt;/ListGroup.Item>
+
+            {/* Order Items */}
+            &lt;ListGroup.Item>
+              &lt;h2>Order Items&lt;/h2>
+              {orderDetails.orderItems.length === 0 ? (
+                &lt;Message variant="info">Order is empty&lt;/Message>
+              ) : (
+                &lt;ListGroup variant="flush">
+                  {orderDetails.orderItems.map((item, index) => (
+                    &lt;ListGroup.Item key={index}>
+                      &lt;Row>
+                        &lt;Col md={1}>
+                          &lt;Image
+                            src={item.image}
+                            alt={item.name}
+                            fluid
+                            rounded
+                          />
+                        &lt;/Col>
+                        &lt;Col>
+                          &lt;Link to={`/product/${item.product}`}>
+                            {item.name}
+                          &lt;/Link>
+                        &lt;/Col>
+                        &lt;Col md={4}>
+                          {item.qty} X ₹{item.price} = ₹
+                          {(item.qty * item.price).toFixed(2)}
+                        &lt;/Col>
+                      &lt;/Row>
+                    &lt;/ListGroup.Item>
+                  ))}
+                &lt;/ListGroup>
+              )}
+            &lt;/ListGroup.Item>
+          &lt;/ListGroup>
+        &lt;/Col>
+
+        {/* Order Summary */}
+        &lt;Col md={4}>
+          &lt;Card>
+            &lt;ListGroup variant="flush">
+              &lt;ListGroup.Item>
+                &lt;h2>Order Summary&lt;/h2>
+              &lt;/ListGroup.Item>
+
+              {/* Products Cost */}
+              &lt;ListGroup.Item>
+                &lt;Row>
+                  &lt;Col>Products Cost:&lt;/Col>
+                  &lt;Col>₹{itemsPrice}&lt;/Col>
+                &lt;/Row>
+              &lt;/ListGroup.Item>
+
+              {/* Shipping Cost */}
+              &lt;ListGroup.Item>
+                &lt;Row>
+                  &lt;Col>Shipping:&lt;/Col>
+                  &lt;Col>₹{orderDetails.shippingPrice}&lt;/Col>
+                &lt;/Row>
+              &lt;/ListGroup.Item>
+
+              {/* Tax Cost */}
+              &lt;ListGroup.Item>
+                &lt;Row>
+                  &lt;Col>Tax:&lt;/Col>
+                  &lt;Col>₹{orderDetails.taxPrice}&lt;/Col>
+                &lt;/Row>
+              &lt;/ListGroup.Item>
+
+              {/* Total Cost */}
+              &lt;ListGroup.Item>
+                &lt;Row>
+                  &lt;Col>Total:&lt;/Col>
+                  &lt;Col>₹{orderDetails.totalPrice}&lt;/Col>
+                &lt;/Row>
+              &lt;/ListGroup.Item>
+
+              {/* PayPal Button */}
+              {!orderDetails.isPaid &amp;&amp; (
+                &lt;ListGroup.Item>
+                  {loading &amp;&amp; &lt;Loader />}
+                  {!sdkReady ? (
+                    &lt;Loader />
+                  ) : (
+                    &lt;PayPalButton
+                      amount={orderDetails.totalPrice}
+                      onSuccess={success_payment_handler}
+                    />
+                  )}
+                &lt;/ListGroup.Item>
+              )}
+            &lt;/ListGroup>
+          &lt;/Card>
+        &lt;/Col>
+      &lt;/Row>
+    &lt;/div>
+  );
+}
+
+export default OrderScreen;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Feb 16 2024 15:44:09 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

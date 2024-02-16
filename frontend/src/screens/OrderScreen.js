@@ -1,44 +1,40 @@
+/**
+ * OrderScreen component for displaying and handling user orders.
+ * @module OrderScreen
+ * @param {Object} props - React component props.
+ * @param {Object} props.history - The history object for navigation.
+ * @returns {JSX.Element} - Rendered component.
+ */
 import React, { useState, useEffect } from "react";
-
-/* REACT ROUTER */
 import { Link } from "react-router-dom";
-
-/* REACT BOOTSTRAP */
 import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
-
-/* PAYPAL BUTTONS */
 import { PayPalButton } from "react-paypal-button-v2";
-
-/* COMPONENTS */
 import Message from "../components/Message";
 import Loader from "../components/Loader";
-
-/* REACT - REDUX */
 import { useDispatch, useSelector } from "react-redux";
-
-/* ACTION CREATORS */
 import { payOrder } from "../redux/slices/orderSlice";
 
+/**
+ * React functional component for displaying and handling user orders.
+ * @function
+ * @param {Object} props - React component props.
+ * @returns {JSX.Element} - Rendered component.
+ */
 function OrderScreen({ history }) {
   const dispatch = useDispatch();
-
   const [sdkReady, setSdkReady] = useState(false);
 
-  /* PULLING A PART OF STATE FROM THE ACTUAL STATE IN THE REDUX STORE */
+  // Redux state
   const order = useSelector((state) => state.order);
   const { orderDetails, error, loading } = order;
-  console.log(orderDetails);
-  // const orderPay = useSelector((state) => state.orderPay);
-  // const { loading: loadingPay, success: successPay } = orderPay;
 
-  // const orderDeliver = useSelector((state) => state.orderDeliver);
-  // const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
-
+  // Redux user state
   const userLogin = useSelector((state) => state.user);
   const { userDetails } = userLogin;
 
   let updatedOrderDetails = orderDetails;
 
+  // Update order details with total items price
   if (
     updatedOrderDetails &&
     updatedOrderDetails.orderItems &&
@@ -51,7 +47,7 @@ function OrderScreen({ history }) {
     updatedOrderDetails = { ...updatedOrderDetails, itemsPrice };
   }
 
-  // PAYPAL BUTTONS
+  // Add PayPal script dynamically
   const add_pay_pal_script = () => {
     const script = document.createElement("script");
     script.type = "text/javascript";
@@ -64,12 +60,11 @@ function OrderScreen({ history }) {
     document.body.appendChild(script);
   };
 
+  // useEffect to check user login and activate PayPal scripts
   useEffect(() => {
-    // IS USER IS NOT LOGGED IN THEN REDIRECT TO LOGIN PAGE
     if (!userDetails) {
       history.push("/login");
     } else if (!orderDetails.isPaid) {
-      // ACTIVATING PAYPAL SCRIPTS
       if (!window.paypal) {
         add_pay_pal_script();
       } else {
@@ -78,7 +73,7 @@ function OrderScreen({ history }) {
     }
   }, [dispatch, orderDetails, history, userDetails]);
 
-  // Calculate the total price of each individual item
+  // Calculate total price of each individual item
   const calculate_items_price = () => {
     if (orderDetails.orderItems && orderDetails.orderItems.length > 0) {
       return orderDetails.orderItems.reduce((total, item) => {
@@ -89,15 +84,20 @@ function OrderScreen({ history }) {
     return 0;
   };
 
-  // Call the calculate_items_price method to get the total price
+  // Call calculate_items_price method to get total price
   const itemsPrice = calculate_items_price();
 
-  /* HANDLERS */
+  /**
+   * Handler for successful payment.
+   * @function
+   * @param {Object} paymentResult - PayPal payment result.
+   */
   const success_payment_handler = (paymentResult) => {
     dispatch(payOrder(orderDetails._id, paymentResult));
     console.log(orderDetails._id);
   };
 
+  // Component rendering
   return loading ? (
     <Loader />
   ) : error ? (
@@ -108,20 +108,18 @@ function OrderScreen({ history }) {
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
+            {/* Shipping details */}
             <ListGroup.Item>
               <h2>Shipping</h2>
-
               <p>
                 <strong>Name: {orderDetails.User.name}</strong>
               </p>
-
               <p>
                 <strong>Email: </strong>
                 <a href={`mailto:${orderDetails.User.username}`}>
                   {orderDetails.User.username}
                 </a>
               </p>
-
               <p>
                 <strong>Shipping Address: </strong>
                 {orderDetails.shippingAddress.address},{" "}
@@ -129,7 +127,7 @@ function OrderScreen({ history }) {
                 {orderDetails.shippingAddress.postalCode},{" "}
                 {orderDetails.shippingAddress.country}
               </p>
-
+              {/* Display delivery status */}
               {orderDetails.isDeliver ? (
                 <Message variant="success">
                   Delivered on{" "}
@@ -142,14 +140,14 @@ function OrderScreen({ history }) {
               )}
             </ListGroup.Item>
 
+            {/* Payment details */}
             <ListGroup.Item>
               <h2>Payment</h2>
-
               <p>
                 <strong>Payment Method: </strong>
                 {orderDetails.paymentMethod}
               </p>
-
+              {/* Display payment status */}
               {orderDetails.isPaid ? (
                 <Message variant="success">
                   Paid{" "}
@@ -162,9 +160,9 @@ function OrderScreen({ history }) {
               )}
             </ListGroup.Item>
 
+            {/* Order Items */}
             <ListGroup.Item>
               <h2>Order Items</h2>
-
               {orderDetails.orderItems.length === 0 ? (
                 <Message variant="info">Order is empty</Message>
               ) : (
@@ -180,13 +178,11 @@ function OrderScreen({ history }) {
                             rounded
                           />
                         </Col>
-
                         <Col>
                           <Link to={`/product/${item.product}`}>
                             {item.name}
                           </Link>
                         </Col>
-
                         <Col md={4}>
                           {item.qty} X ₹{item.price} = ₹
                           {(item.qty * item.price).toFixed(2)}
@@ -200,6 +196,7 @@ function OrderScreen({ history }) {
           </ListGroup>
         </Col>
 
+        {/* Order Summary */}
         <Col md={4}>
           <Card>
             <ListGroup variant="flush">
@@ -207,38 +204,39 @@ function OrderScreen({ history }) {
                 <h2>Order Summary</h2>
               </ListGroup.Item>
 
+              {/* Products Cost */}
               <ListGroup.Item>
                 <Row>
                   <Col>Products Cost:</Col>
-
                   <Col>₹{itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
+              {/* Shipping Cost */}
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping:</Col>
-
                   <Col>₹{orderDetails.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
+              {/* Tax Cost */}
               <ListGroup.Item>
                 <Row>
                   <Col>Tax:</Col>
-
                   <Col>₹{orderDetails.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
+              {/* Total Cost */}
               <ListGroup.Item>
                 <Row>
                   <Col>Total:</Col>
-
                   <Col>₹{orderDetails.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
+              {/* PayPal Button */}
               {!orderDetails.isPaid && (
                 <ListGroup.Item>
                   {loading && <Loader />}
