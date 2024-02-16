@@ -1,5 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
+/**
+ * Star is a simple component that displays a star-shaped background with text inside.
+ * 
+ * @returns {JSX.Element} - The rendered star component.
+ */
 
 const useStyles = makeStyles(() => ({
   container: {
