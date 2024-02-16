@@ -5,47 +5,52 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import {
   login
- 
 } from "../redux/slices/userSlice";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 
-const useStyles = makeStyles((theme) => ({
-  form: {
-    width: "100%",
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
+/**
+ * @component
+ * @description LoginScreen component handles user login functionality.
+ * @param {Object} props - React component props.
+ * @param {Object} props.location - The location object containing information about the current URL.
+ * @param {Object} props.history - The history object to navigate between pages.
+ */
 function LoginScreen({ location, history }) {
+  // Styles for Material-UI components
   const classes = useStyles();
 
+  // State hooks for managing form input fields
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Redux hooks for dispatching actions and selecting data from the store
   const dispatch = useDispatch();
-
-  const redirect = location.search ? location.search.split("=")[1] : "/";
-
   const userLogin = useSelector((state) => state.user);
   const { userDetails, loading, error } = userLogin;
 
+  // Extracting redirect path from the URL or setting a default value
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
+  // Redirect the user to the specified path if userDetails are available
   useEffect(() => {
     if (userDetails) {
       history.replace(redirect);
     }
   }, [history, userDetails, redirect]);
 
+  /**
+   * @function
+   * @description Handles the form submission.
+   * @param {Object} e - The event object.
+   */
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(email, password)
     dispatch(login(email, password));
   };
 
+  // Render the component
   return (
     <FormContainer>
       <Typography component="h1" style={{ fontWeight: "bold" }} variant="h5">
