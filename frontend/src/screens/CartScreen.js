@@ -1,3 +1,7 @@
+/**
+ * @module CartScreen
+ */
+
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -13,16 +17,37 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import { removeFromCart } from "../redux/slices/cartSlice";
 
+/**
+ * CartScreen functional component.
+ * @param {object} props - Component properties.
+ * @param {object} props.history - History object from React Router.
+ * @returns {JSX.Element} JSX element representing the CartScreen component.
+ */
 function CartScreen({ history }) {
   const dispatch = useDispatch();
+
+  /**
+   * Redux state for the cart.
+   * @type {object}
+   * @property {object[]} cartItems - Array of items in the cart.
+   */
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
-  console.log(cartItems);
-  
+
+  /**
+   * Handles removing an item from the cart.
+   * @param {string} id - ID of the item to be removed.
+   * @returns {void}
+   */
   const removeFromCartHandler = (id) => {
     dispatch(removeFromCart(id));
   };
 
+  /**
+   * Handles the checkout process.
+   * Redirects to the login page with a redirect parameter set to "shipping".
+   * @returns {void}
+   */
   const checkoutHandler = () => {
     history.push("/login?redirect=shipping");
   };
