@@ -1,3 +1,5 @@
+/* This code is a React component called "Header" that represents the header section of a web
+application. It imports various components and styles from the Material-UI library and other files. */
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -13,6 +15,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import SearchBox from "./SearchBox";
 import logo from "../logo.png";
 import { logout } from "../redux/slices/userSlice";
+/* The code defines a React component called "Header" that represents the header section of a web
+application. */
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
