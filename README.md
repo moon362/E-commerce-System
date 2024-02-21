@@ -1,4 +1,8 @@
-<<<<<<< HEAD
+
+// Content from the main branch
+=======
+// Content from the ajoy-sarker branch
+>>>>>>> ajoy-sarker
 # E-commerce-System
 # Bug Hunters
 We, as students of the Department of Computer Science and Engineering at Jahangirnagar University, are currently working on an exciting project named the E-commerce System. This project aims to create a robust and user-friendly online platform that facilitates seamless shopping experiences for customers. With a focus on features such as secure payment gateways, advanced search functionalities, and efficient order tracking.
