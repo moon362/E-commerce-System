@@ -124,7 +124,7 @@ function LoginScreen({ location, history }) {
           Sign In
         </Button>
         {/* Registration link */}
-        <Grid container justify="flex-start">
+        <Grid container justifyContent="flex-start">
           <Grid item>
             New Customer?{" "}
             <Link
