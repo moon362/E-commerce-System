@@ -13,6 +13,15 @@ import { useDispatch, useSelector } from "react-redux";
 /* ACTION CREATORS */
 import { saveShippingAddress } from "../redux/slices/cartSlice";
 
+/**
+ * The `shipping_screen` function in JavaScript handles the shipping address form submission and saving
+ * the address in a shopping cart application.
+ * @returns The `shipping_screen` function is returning a JSX element that represents a shipping screen
+ * form. The form includes input fields for the shipping address, city, postal code, and country. The
+ * user can enter their shipping information and submit the form. Upon submission, the shipping address
+ * details are saved using the `saveShippingAddress` action creator dispatched through Redux
+ * `dispatch`. After saving the address, the user is
+ */
 function shipping_screen({ history }) {
   // PULLING OUT SHIPPING ADDRESS FROM CART
   const cart = useSelector((state) => state.cart);
