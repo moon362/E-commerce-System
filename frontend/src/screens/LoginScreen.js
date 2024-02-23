@@ -16,11 +16,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 
-/**
- * Custom styles for the LoginScreen component.
- * @constant
- * @type {Object}
- */
+// Custom styles for the LoginScreen component.
 const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%",
@@ -62,12 +58,8 @@ function LoginScreen({ location, history }) {
     }
   }, [history, userDetails, redirect]);
 
-  /**
-   * Form submission handler.
-   * @function
-   * @param {Object} e - Event object.
-   */
-  const submit_handler = (e) => {
+  // Form submission handler
+  const submitHandler = (e) => {
     e.preventDefault();
     console.log(email, password);
     dispatch(login(email, password));
@@ -81,7 +73,7 @@ function LoginScreen({ location, history }) {
       </Typography>
       {error && <Message variant="danger">{error}</Message>}
       {loading && <Loader />}
-      <form className={classes.form} onSubmit={submit_handler}>
+      <form className={classes.form} onSubmit={submitHandler}>
         <Grid container spacing={2}>
           {/* Email input */}
           <Grid item xs={12}>
