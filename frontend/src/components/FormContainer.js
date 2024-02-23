@@ -1,4 +1,5 @@
 import { Grid, Container } from "@mui/material";
+
 /**
  * FormContainer is a reusable component that provides a layout for forms.
  * It wraps its children components within a responsive grid layout using Material-UI's Grid and Container components.
@@ -6,7 +7,6 @@ import { Grid, Container } from "@mui/material";
  * @param {ReactNode} children - The child components to be wrapped within the form container.
  * @returns {JSX.Element} - The rendered form container component.
  */
-
 function FormContainer({ children }) {
   return (
     <Container>
