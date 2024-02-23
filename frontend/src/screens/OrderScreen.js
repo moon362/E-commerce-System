@@ -7,6 +7,12 @@ import { payOrder } from "../redux/slices/orderSlice";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 
+/**
+ * React component representing the Order Screen.
+ * @component
+ * @param {Object} history - The history object provided by React Router.
+ * @returns {JSX.Element} - Rendered component.
+ */
 function OrderScreen({ history }) {
   const dispatch = useDispatch();
   const [sdkReady, setSdkReady] = useState(false);
@@ -18,7 +24,10 @@ function OrderScreen({ history }) {
   const userLogin = useSelector((state) => state.user);
   const { userDetails } = userLogin;
 
-  // Calculate the total price of each individual item
+  /**
+   * Calculate the total price of each individual item.
+   * @returns {number} - Total price of all items.
+   */
   const calculateItemsPrice = () => {
     if (orderDetails.orderItems && orderDetails.orderItems.length > 0) {
       return orderDetails.orderItems.reduce((total, item) => {
@@ -32,7 +41,9 @@ function OrderScreen({ history }) {
   // Call the calculateItemsPrice method to get the total price
   const itemsPrice = calculateItemsPrice();
 
-  // Add PayPal script dynamically to the document
+  /**
+   * Add PayPal script dynamically to the document.
+   */
   const addPayPalScript = () => {
     const script = document.createElement("script");
     script.type = "text/javascript";
@@ -59,7 +70,10 @@ function OrderScreen({ history }) {
     }
   }, [dispatch, orderDetails, history, userDetails]);
 
-  // Success handler for PayPal payment
+  /**
+   * Success handler for PayPal payment.
+   * @param {Object} paymentResult - PayPal payment result.
+   */
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderDetails._id, paymentResult));
     console.log(orderDetails._id);

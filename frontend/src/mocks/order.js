@@ -1,14 +1,22 @@
 import axios from "axios";
 
-// Class representing the Order API
+/**
+ * Class representing an API for handling orders.
+ */
 class OrderAPI {
-  // Method to create a new order
+  /**
+   * Create a new order.
+   *
+   * @param {Object} order - The order information.
+   * @returns {Promise<Object>} - The created order data.
+   * @throws {string} - Throws an error message if the request fails.
+   */
   createOrder = async (order) => {
     try {
-      // Retrieve user token from localStorage
+      // Retrieve the user token from local storage
       const token = JSON.parse(localStorage.getItem("userInfo")).token;
 
-      // Set up request headers with authentication token
+      // Set the request headers
       const config = {
         headers: {
           "Content-type": "application/json",
@@ -16,26 +24,31 @@ class OrderAPI {
         },
       };
 
-      // Make a POST request to create a new order
+      // Make a POST request to create the order
       const { data } = await axios.post(`/api/orders/add/`, order, config);
 
-      // Return the response data
       return data;
     } catch (error) {
-      // Handle and throw errors with appropriate messages
+      // Handle errors and throw appropriate messages
       throw error.response && error.response.data.detail
         ? error.response.data.detail
         : error.message;
     }
   };
 
-  // Method to get details of a specific order by ID
+  /**
+   * Get details of a specific order.
+   *
+   * @param {string} id - The ID of the order.
+   * @returns {Promise<Object>} - The order details.
+   * @throws {string} - Throws an error message if the request fails.
+   */
   getOrderDetails = async (id) => {
     try {
-      // Retrieve user token from localStorage
+      // Retrieve the user token from local storage
       const token = JSON.parse(localStorage.getItem("userInfo")).token;
 
-      // Set up request headers with authentication token
+      // Set the request headers
       const config = {
         headers: {
           "Content-type": "application/json",
@@ -46,23 +59,29 @@ class OrderAPI {
       // Make a GET request to retrieve order details
       const { data } = await axios.get(`/api/orders/${id}/`, config);
 
-      // Return the response data
       return data;
     } catch (error) {
-      // Handle and throw errors with appropriate messages
+      // Handle errors and throw appropriate messages
       throw error.response && error.response.data.detail
         ? error.response.data.detail
         : error.message;
     }
   };
 
-  // Method to update an order's payment status
+  /**
+   * Pay for an existing order.
+   *
+   * @param {string} id - The ID of the order.
+   * @param {Object} paymentResult - The payment result information.
+   * @returns {Promise<Object>} - The updated order data after payment.
+   * @throws {string} - Throws an error message if the request fails.
+   */
   payOrder = async (id, paymentResult) => {
     try {
-      // Retrieve user token from localStorage
+      // Retrieve the user token from local storage
       const token = JSON.parse(localStorage.getItem("userInfo")).token;
 
-      // Set up request headers with authentication token
+      // Set the request headers
       const config = {
         headers: {
           "Content-type": "application/json",
@@ -70,30 +89,34 @@ class OrderAPI {
         },
       };
 
-      // Make a PUT request to update the payment status of an order
+      // Make a PUT request to update order payment status
       const { data } = await axios.put(
         `/api/orders/${id}/pay/`,
         paymentResult,
         config
       );
 
-      // Return the response data
       return data;
     } catch (error) {
-      // Handle and throw errors with appropriate messages
+      // Handle errors and throw appropriate messages
       throw error.response && error.response.data.detail
         ? error.response.data.detail
         : error.message;
     }
   };
 
-  // Method to get a list of orders for the authenticated user
+  /**
+   * List orders belonging to the authenticated user.
+   *
+   * @returns {Promise<Object>} - The list of orders for the authenticated user.
+   * @throws {string} - Throws an error message if the request fails.
+   */
   listMyOrders = async () => {
     try {
-      // Retrieve user token from localStorage
+      // Retrieve the user token from local storage
       const token = JSON.parse(localStorage.getItem("userInfo")).token;
 
-      // Set up request headers with authentication token
+      // Set the request headers
       const config = {
         headers: {
           "Content-type": "application/json",
@@ -101,26 +124,31 @@ class OrderAPI {
         },
       };
 
-      // Make a GET request to retrieve the user's orders
+      // Make a GET request to retrieve the authenticated user's orders
       const { data } = await axios.get(`/api/orders/myorders/`, config);
 
-      // Return the response data
       return data;
     } catch (error) {
-      // Handle and throw errors with appropriate messages
+      // Handle errors and throw appropriate messages
       throw error.response && error.response.data.detail
         ? error.response.data.detail
         : error.message;
     }
   };
 
-  // Method to mark an order as delivered
+  /**
+   * Mark an order as delivered.
+   *
+   * @param {Object} order - The order to be marked as delivered.
+   * @returns {Promise<Object>} - The updated order data after marking as delivered.
+   * @throws {string} - Throws an error message if the request fails.
+   */
   deliverOrder = async (order) => {
     try {
-      // Retrieve user token from localStorage
+      // Retrieve the user token from local storage
       const token = JSON.parse(localStorage.getItem("userInfo")).token;
 
-      // Set up request headers with authentication token
+      // Set the request headers
       const config = {
         headers: {
           "Content-type": "application/json",
@@ -128,17 +156,16 @@ class OrderAPI {
         },
       };
 
-      // Make a PUT request to mark an order as delivered
+      // Make a PUT request to mark the order as delivered
       const { data } = await axios.put(
         `/api/orders/${order._id}/deliver/`,
         {},
         config
       );
 
-      // Return the response data
       return data;
     } catch (error) {
-      // Handle and throw errors with appropriate messages
+      // Handle errors and throw appropriate messages
       throw error.response && error.response.data.detail
         ? error.response.data.detail
         : error.message;
@@ -149,5 +176,5 @@ class OrderAPI {
 // Create an instance of the OrderAPI class
 const orderAPI = new OrderAPI();
 
-// Export the instance of OrderAPI for use in other modules
+// Export the orderAPI instance
 export default orderAPI;
