@@ -1,3 +1,4 @@
 {
-    "docwriter.progress.trackClasses": true
+    "docwriter.progress.trackClasses": true,
+    "docwriter.style": "JSDoc"
 }

@@ -1,3 +1,12 @@
+/**
+ * The `ProductScreen` component in JavaScript displays product details, allows adding to cart, and
+ * submitting reviews with user authentication.
+ * @returns The `ProductScreen` component is being returned. It consists of JSX elements that display
+ * product details, allow users to add the product to cart, view reviews, and write a review. The
+ * component also handles state management using `useState` hooks, dispatch actions using
+ * `useDispatch`, and access state using `useSelector`. The component also includes event handlers for
+ * adding to cart and submitting reviews.
+ */
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Row, Col, Image, ListGroup, Button, Card, Form } from "react-bootstrap";
