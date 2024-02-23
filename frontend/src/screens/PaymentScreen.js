@@ -13,8 +13,13 @@ import { useDispatch, useSelector } from "react-redux";
 /* ACTION CREATORS */
 import { savePaymentMethod } from "../redux/slices/cartSlice";
 
+/**
+ * React component for the payment screen.
+ * @param {Object} props - React props.
+ * @param {Object} props.history - History object for navigation.
+ */
 function PaymentScreen({ history }) {
-  
+
   // PULLING OUT SHIPPING ADDRESS FROM CART
   const cart = useSelector((state) => state.cart);
 
@@ -32,12 +37,16 @@ function PaymentScreen({ history }) {
 
   const dispatch = useDispatch();
 
+  /**
+   * Function to handle form submission.
+   * @param {Object} e - Event object.
+   */
   const submitHandler = (e) => {
     e.preventDefault();
 
     dispatch(savePaymentMethod(paymentMethod));
 
-    // AFTER CHOSING THE PAYMENT METHOD REDIRECT USER TO PlaceOrder SCREEN
+    // AFTER CHOOSING THE PAYMENT METHOD REDIRECT USER TO PlaceOrder SCREEN
     history.push("/placeorder");
   };
 
@@ -69,4 +78,3 @@ function PaymentScreen({ history }) {
 }
 
 export default PaymentScreen;
-
