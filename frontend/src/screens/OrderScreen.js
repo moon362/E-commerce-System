@@ -9,7 +9,7 @@ import Loader from "../components/Loader";
 
 /**
  * React component representing the Order Screen.
- * @component
+ * @module OrderScreen 
  * @param {Object} history - The history object provided by React Router.
  * @returns {JSX.Element} - Rendered component.
  */

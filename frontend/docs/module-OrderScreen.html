@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>components/SearchBox.js - Documentation</title>
+    <title>OrderScreen - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,93 +37,104 @@
 
 <div id="main">
     
-    <h1 class="page-title">components/SearchBox.js</h1>
+    <h1 class="page-title">OrderScreen</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { Box, InputBase, IconButton } from "@material-ui/core";
-import { Search as SearchIcon } from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles";
+</header>
 
-// Styles using Material-UI makeStyles
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: "#fff",
-    boxShadow: "0 0 3px 1px rgba(0, 0, 0, 0.1)",
-    width: "100%",
-  },
-  input: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-    fontSize: "1rem",
-  },
-  iconButton: {
-    padding: theme.spacing(1),
-    backgroundColor: "grey",
-    color: "#fff",
-    "&amp;:hover": {
-      backgroundColor: "black",
-    },
-  },
-}));
+<article>
+    
+        <div class="container-overview">
+        
+            
 
-/**
- * Functional component representing a search box.
- * @component
- * @returns {JSX.Element} SearchBox component
- */
-function SearchBox() {
-  const classes = useStyles();
-  const [keyword, setKeyword] = useState(""); // State to hold the search keyword
-  const history = useHistory();
+<dl class="details">
+    
+    <dt class="tag-description">Description:</dt>
+    <dd class="tag-description"><ul class="dummy"><li><p>React component representing the Order Screen.</p></li></ul></dd>
+    
 
-  /**
-   * Handles form submission to perform a search.
-   * @param {object} e - The event object.
-   * @returns {void}
-   */
-  const submitHandler = (e) => {
-    e.preventDefault();
-    // Redirect to the search results page with the specified keyword and page number
-    history.push(`/?keyword=${keyword}&amp;page=1`);
-  };
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="screens_OrderScreen.js.html">screens/OrderScreen.js</a>, <a href="screens_OrderScreen.js.html#line10">line 10</a>
+    </li></ul></dd>
+    
 
-  return (
-    // Search box form
-    &lt;Box component="form" onSubmit={submitHandler} className={classes.root}>
-      {/* Input field for entering the search keyword */}
-      &lt;InputBase
-        placeholder="Search for products..."
-        className={classes.input}
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-      />
-      {/* Search button */}
-      &lt;IconButton
-        type="submit"
-        className={classes.iconButton}
-        aria-label="search"
-      >
-        &lt;SearchIcon />
-      &lt;/IconButton>
-    &lt;/Box>
-  );
-}
+    
 
-export default SearchBox;
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+            
+                <div class="description usertext"><p>React component representing the Order Screen.</p></div>
+            
+
+            
+        
+        </div>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
