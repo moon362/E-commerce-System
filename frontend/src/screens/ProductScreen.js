@@ -1,7 +1,7 @@
 /**
  * The `ProductScreen` component in JavaScript displays product details, allows adding to cart, and
  * submitting reviews with user authentication.
- * @returns The `ProductScreen` component is being returned. It consists of JSX elements that display
+ * @returns {JSX.Element} The `ProductScreen` component is being returned. It consists of JSX elements that display
  * product details, allow users to add the product to cart, view reviews, and write a review. The
  * component also handles state management using `useState` hooks, dispatch actions using
  * `useDispatch`, and access state using `useSelector`. The component also includes event handlers for
@@ -23,13 +23,11 @@ import Message from "../components/Message";
 import { addToCart } from "../redux/slices/cartSlice";
 
 /**
- * The `ProductScreen` component in JavaScript displays product details, allows adding to cart, and
- * submitting reviews with user authentication.
- * @returns The `ProductScreen` component is being returned. It consists of JSX elements that display
- * product details, allow users to add the product to cart, view reviews, and write a review. The
- * component also handles state management using `useState` hooks, dispatch actions using
- * `useDispatch`, and access state using `useSelector`. The component also includes event handlers for
- * adding to cart and submitting reviews.
+ * React functional component for displaying product details, allowing adding to cart, and submitting reviews with user authentication.
+ * @param {object} props - React component props.
+ * @param {object} props.match - Object containing information about how a <Route path> matched the URL.
+ * @param {object} props.history - The history object for navigation.
+ * @returns {JSX.Element} Rendered component.
  */
 function ProductScreen({ match, history }) {
   const [qty, setQty] = useState(1);
@@ -39,13 +37,13 @@ function ProductScreen({ match, history }) {
   const dispatch = useDispatch();
   const productDetails = useSelector((state) => state.product.productDetails);
   const { product, loading, error } = productDetails;
-  console.log(productDetails)
 
   const userLogin = useSelector((state) => state.user );
   const { userDetails } = userLogin;
 
   const productReviewCreate = useSelector((state) => state.product.createReview);
   const { loading: loadingProductReview, error: errorProductReview, success: successProductReview } = productReviewCreate;
+
   useEffect(() => {
     // IF REVIEW SUCCESSFULLY SUBMITTED, RESET
     if (successProductReview) {
@@ -56,13 +54,11 @@ function ProductScreen({ match, history }) {
     dispatch(fetchProductDetails(match.params.id));
   }, [dispatch, match, successProductReview]);
 
-  // console.log(match.params.id);
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
     dispatch(addToCart(match.params.id, qty));
   };
   
-
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(createReview(match.params.id, { rating, comment }));
