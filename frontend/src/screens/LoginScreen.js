@@ -1,10 +1,11 @@
-// Import necessary modules and components from React, Material-UI, React Router, and Redux
+
 /**
+ * LoginScreen component for user login functionality.
  * @module LoginScreen
- * @desc Functional component representing the Login Screen.
- * @param {Object} props - React props for the component.
- * @param {Object} props.location - Location object from React Router.
- * @param {Object} props.history - History object from React Router.
+ * @param {Object} props - React component props.
+ * @param {Object} props.location - The current location object.
+ * @param {Object} props.history - The history object for navigation.
+
  * @returns {JSX.Element} - Rendered component.
  */
 import React, { useState, useEffect } from "react";
@@ -12,15 +13,15 @@ import { Link } from "react-router-dom";
 import { Grid, TextField, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  login
-} from "../redux/slices/userSlice";
+
+import { login } from "../redux/slices/userSlice";
+
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 
+// Custom styles for the LoginScreen component.
 
-// Define styles using Material-UI makeStyles hook
 const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%",
@@ -31,39 +32,49 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-// Functional component for the Login Screen
+
+/**
+ * React functional component for user login.
+ * @function
+ * @param {Object} props - React component props.
+ * @returns {JSX.Element} - Rendered component.
+ */
 function LoginScreen({ location, history }) {
+  // Styles
   const classes = useStyles();
 
-  // State variables to manage email, password, and Redux state
+  // State
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  // Redux: useDispatch to dispatch actions, useSelector to get state
+  // Redux
   const dispatch = useDispatch();
 
-  // Extracting user details, loading, and error from the Redux state
+  // Redirect path
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
+  // Redux state
   const userLogin = useSelector((state) => state.user);
   const { userDetails, loading, error } = userLogin;
 
-  // Extracting redirect path from the URL query parameters
-  const redirect = location.search ? location.search.split("=")[1] : "/";
+  // useEffect to redirect on successful login
 
-  // useEffect hook to redirect to the specified path once the user is logged in
   useEffect(() => {
     if (userDetails) {
       history.replace(redirect);
     }
   }, [history, userDetails, redirect]);
 
-  // Event handler for form submission
+
+  // Form submission handler
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(email, password)
+    console.log(email, password);
     dispatch(login(email, password));
   };
 
-  // JSX for the Login Screen
+  // Component rendering
+
   return (
     <FormContainer>
       <Typography component="h1" style={{ fontWeight: "bold" }} variant="h5">
@@ -73,8 +84,10 @@ function LoginScreen({ location, history }) {
       {loading && <Loader />}
       <form className={classes.form} onSubmit={submitHandler}>
         <Grid container spacing={2}>
+
+          {/* Email input */}
           <Grid item xs={12}>
-            {/* Text field for email input */}
+
             <TextField
               variant="filled"
               required
@@ -87,8 +100,10 @@ function LoginScreen({ location, history }) {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Grid>
+
+          {/* Password input */}
           <Grid item xs={12}>
-            {/* Text field for password input */}
+
             <TextField
               variant="filled"
               required
@@ -103,7 +118,9 @@ function LoginScreen({ location, history }) {
             />
           </Grid>
         </Grid>
-        {/* Button for submitting the form */}
+
+        {/* Submit button */}
+
         <Button
           type="submit"
           fullWidth
@@ -113,9 +130,11 @@ function LoginScreen({ location, history }) {
         >
           Sign In
         </Button>
-        <Grid container justify="flex-start">
+
+        {/* Registration link */}
+        <Grid container justifyContent="flex-start">
           <Grid item>
-            {/* Link to the registration page */}
+
             New Customer?{" "}
             <Link
               to={redirect ? `/register?redirect=${redirect}` : "/register"}
@@ -130,5 +149,5 @@ function LoginScreen({ location, history }) {
   );
 }
 
-// Export the LoginScreen component as the default export
+
 export default LoginScreen;
