@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: LoginScreen.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: LoginScreen.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// Import necessary modules and components from React, Material-UI, React Router, and Redux
+/**
+ * @module LoginScreen
+ * @desc Functional component representing the Login Screen.
+ * @param {Object} props - React props for the component.
+ * @param {Object} props.location - Location object from React Router.
+ * @param {Object} props.history - History object from React Router.
+ * @returns {JSX.Element} - Rendered component.
+ */
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Grid, TextField, Button, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  login
+} from "../redux/slices/userSlice";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+import FormContainer from "../components/FormContainer";
+
+
+// Define styles using Material-UI makeStyles hook
+const useStyles = makeStyles((theme) => ({
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+// Functional component for the Login Screen
+function LoginScreen({ location, history }) {
+  const classes = useStyles();
+
+  // State variables to manage email, password, and Redux state
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Redux: useDispatch to dispatch actions, useSelector to get state
+  const dispatch = useDispatch();
+
+  // Extracting user details, loading, and error from the Redux state
+  const userLogin = useSelector((state) => state.user);
+  const { userDetails, loading, error } = userLogin;
+
+  // Extracting redirect path from the URL query parameters
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
+  // useEffect hook to redirect to the specified path once the user is logged in
+  useEffect(() => {
+    if (userDetails) {
+      history.replace(redirect);
+    }
+  }, [history, userDetails, redirect]);
+
+  // Event handler for form submission
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log(email, password)
+    dispatch(login(email, password));
+  };
+
+  // JSX for the Login Screen
+  return (
+    &lt;FormContainer>
+      &lt;Typography component="h1" style={{ fontWeight: "bold" }} variant="h5">
+        Sign In
+      &lt;/Typography>
+      {error &amp;&amp; &lt;Message variant="danger">{error}&lt;/Message>}
+      {loading &amp;&amp; &lt;Loader />}
+      &lt;form className={classes.form} onSubmit={submitHandler}>
+        &lt;Grid container spacing={2}>
+          &lt;Grid item xs={12}>
+            {/* Text field for email input */}
+            &lt;TextField
+              variant="filled"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          &lt;/Grid>
+          &lt;Grid item xs={12}>
+            {/* Text field for password input */}
+            &lt;TextField
+              variant="filled"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          &lt;/Grid>
+        &lt;/Grid>
+        {/* Button for submitting the form */}
+        &lt;Button
+          type="submit"
+          fullWidth
+          variant="outlined"
+          color="primary"
+          className={classes.submit}
+        >
+          Sign In
+        &lt;/Button>
+        &lt;Grid container justify="flex-start">
+          &lt;Grid item>
+            {/* Link to the registration page */}
+            New Customer?{" "}
+            &lt;Link
+              to={redirect ? `/register?redirect=${redirect}` : "/register"}
+              variant="body2"
+            >
+              Register
+            &lt;/Link>
+          &lt;/Grid>
+        &lt;/Grid>
+      &lt;/form>
+    &lt;/FormContainer>
+  );
+}
+
+// Export the LoginScreen component as the default export
+export default LoginScreen;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-LoginScreen.html">LoginScreen</a></li></ul><h3>Global</h3><ul><li><a href="global.html#useStyles">useStyles</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Feb 16 2024 19:19:28 GMT+0600 (Bangladesh Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

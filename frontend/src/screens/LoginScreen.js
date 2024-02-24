@@ -1,9 +1,11 @@
+
 /**
  * LoginScreen component for user login functionality.
  * @module LoginScreen
  * @param {Object} props - React component props.
  * @param {Object} props.location - The current location object.
  * @param {Object} props.history - The history object for navigation.
+
  * @returns {JSX.Element} - Rendered component.
  */
 import React, { useState, useEffect } from "react";
@@ -11,12 +13,15 @@ import { Link } from "react-router-dom";
 import { Grid, TextField, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
+
 import { login } from "../redux/slices/userSlice";
+
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 
 // Custom styles for the LoginScreen component.
+
 const useStyles = makeStyles((theme) => ({
   form: {
     width: "100%",
@@ -26,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
+
 
 /**
  * React functional component for user login.
@@ -52,11 +58,13 @@ function LoginScreen({ location, history }) {
   const { userDetails, loading, error } = userLogin;
 
   // useEffect to redirect on successful login
+
   useEffect(() => {
     if (userDetails) {
       history.replace(redirect);
     }
   }, [history, userDetails, redirect]);
+
 
   // Form submission handler
   const submitHandler = (e) => {
@@ -66,6 +74,7 @@ function LoginScreen({ location, history }) {
   };
 
   // Component rendering
+
   return (
     <FormContainer>
       <Typography component="h1" style={{ fontWeight: "bold" }} variant="h5">
@@ -75,8 +84,10 @@ function LoginScreen({ location, history }) {
       {loading && <Loader />}
       <form className={classes.form} onSubmit={submitHandler}>
         <Grid container spacing={2}>
+
           {/* Email input */}
           <Grid item xs={12}>
+
             <TextField
               variant="filled"
               required
@@ -89,8 +100,10 @@ function LoginScreen({ location, history }) {
               onChange={(e) => setEmail(e.target.value)}
             />
           </Grid>
+
           {/* Password input */}
           <Grid item xs={12}>
+
             <TextField
               variant="filled"
               required
@@ -105,7 +118,9 @@ function LoginScreen({ location, history }) {
             />
           </Grid>
         </Grid>
+
         {/* Submit button */}
+
         <Button
           type="submit"
           fullWidth
@@ -115,9 +130,11 @@ function LoginScreen({ location, history }) {
         >
           Sign In
         </Button>
+
         {/* Registration link */}
         <Grid container justifyContent="flex-start">
           <Grid item>
+
             New Customer?{" "}
             <Link
               to={redirect ? `/register?redirect=${redirect}` : "/register"}
@@ -131,5 +148,6 @@ function LoginScreen({ location, history }) {
     </FormContainer>
   );
 }
+
 
 export default LoginScreen;
