@@ -30,12 +30,6 @@ jobs:
         run: cd backend
       - name: Print working directory
         run: pwd
-      - name: Check working directory
-        run: |
-          if [[ $(pwd) == *"backend"* ]]; then
-            echo "Already in backend directory."
-          else
-            echo "Error: Not in backend directory. Please navigate to the backend directory before running tests."
-        
+     
       - name: Run tests
-        run: python manage.py test
+        run: cd backend && python manage.py test && ls
