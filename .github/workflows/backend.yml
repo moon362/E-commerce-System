@@ -26,8 +26,8 @@ jobs:
 
       - name: Set up Django environment
         run: |
-          export DJANGO_SETTINGS_MODULE=backend.settings
-          python backend/manage.py migrate --noinput
+            echo "export DJANGO_SETTINGS_MODULE=backend.settings" >> $GITHUB_ENV
+            python backend/manage.py migrate --noinput
 
       - name: Run tests
         run: pytest backend
