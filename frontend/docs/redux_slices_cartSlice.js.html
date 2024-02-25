@@ -31,7 +31,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CartAPI.html">CartAPI</a><ul class='methods'><li data-type='method'><a href="CartAPI.html#fetchProduct">fetchProduct</a></li></ul></li><li><a href="OrderAPI.html">OrderAPI</a></li></ul><h3>Modules</h3><ul><li><a href="module-CartScreen.html">CartScreen</a><ul class='methods'><li data-type='method'><a href="module-CartScreen.html#~CartScreen">CartScreen</a></li></ul></li><li><a href="module-OrderScreen.html">OrderScreen</a></li></ul><h3>Global</h3><ul><li><a href="global.html"></a></li><li><a href="global.html#ProductCarousel">ProductCarousel</a></li><li><a href="global.html#SearchBox">SearchBox</a></li><li><a href="global.html#cartAPI">cartAPI</a></li><li><a href="global.html#cartSlice">cartSlice</a></li><li><a href="global.html#createOrder">createOrder</a></li><li><a href="global.html#deliverOrder">deliverOrder</a></li><li><a href="global.html#getOrderDetails">getOrderDetails</a></li><li><a href="global.html#initialState">initialState</a></li><li><a href="global.html#listMyOrders">listMyOrders</a></li><li><a href="global.html#listOrders">listOrders</a></li><li><a href="global.html#orderSlice">orderSlice</a></li><li><a href="global.html#payOrder">payOrder</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CartAPI.html">CartAPI</a><ul class='methods'><li data-type='method'><a href="CartAPI.html#fetchProduct">fetchProduct</a></li></ul></li><li><a href="OrderAPI.html">OrderAPI</a></li></ul><h3>Modules</h3><ul><li><a href="module-CartScreen.html">CartScreen</a><ul class='methods'><li data-type='method'><a href="module-CartScreen.html#~CartScreen">CartScreen</a></li></ul></li><li><a href="module-CartSlice.html">CartSlice</a><ul class='methods'><li data-type='method'><a href="module-CartSlice.html#.addToCart">addToCart</a></li><li data-type='method'><a href="module-CartSlice.html#.removeFromCart">removeFromCart</a></li><li data-type='method'><a href="module-CartSlice.html#.savePaymentMethod">savePaymentMethod</a></li><li data-type='method'><a href="module-CartSlice.html#.saveShippingAddress">saveShippingAddress</a></li></ul></li><li><a href="module-Loader.html">Loader</a><ul class='methods'><li data-type='method'><a href="module-Loader.html#.Loader">Loader</a></li></ul></li><li><a href="module-LoginScreen.html">LoginScreen</a><ul class='methods'><li data-type='method'><a href="module-LoginScreen.html#~LoginScreen">LoginScreen</a></li></ul></li><li><a href="module-OrderScreen.html">OrderScreen</a></li><li><a href="module-ProductSlice.html">ProductSlice</a><ul class='methods'><li data-type='method'><a href="module-ProductSlice.html#.createReview">createReview</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchProductDetails">fetchProductDetails</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchProductList">fetchProductList</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchTopRatedProducts">fetchTopRatedProducts</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html"></a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormContainer">FormContainer</a></li><li><a href="global.html#PaymentScreen">PaymentScreen</a></li><li><a href="global.html#PlaceOrderScreen">PlaceOrderScreen</a></li><li><a href="global.html#Product">Product</a></li><li><a href="global.html#ProductCarousel">ProductCarousel</a></li><li><a href="global.html#ProfileScreen">ProfileScreen</a></li><li><a href="global.html#Rating">Rating</a></li><li><a href="global.html#SearchBox">SearchBox</a></li><li><a href="global.html#ShippingScreen">ShippingScreen</a></li><li><a href="global.html#cartAPI">cartAPI</a></li><li><a href="global.html#createOrder">createOrder</a></li><li><a href="global.html#deliverOrder">deliverOrder</a></li><li><a href="global.html#getOrderDetails">getOrderDetails</a></li><li><a href="global.html#initialState">initialState</a></li><li><a href="global.html#listMyOrders">listMyOrders</a></li><li><a href="global.html#listOrders">listOrders</a></li><li><a href="global.html#orderSlice">orderSlice</a></li><li><a href="global.html#payOrder">payOrder</a></li><li><a href="global.html#product_screen">product_screen</a></li><li><a href="global.html#useStyles">useStyles</a></li></ul>
     
 </nav>
 
@@ -47,24 +47,40 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { createSlice } from "@reduxjs/toolkit";
+            <pre class="prettyprint source linenums"><code>/**
+ * Redux Toolkit Slice for managing cart-related state.
+ * @module CartSlice
+ */
+
+import { createSlice } from "@reduxjs/toolkit";
+import cartAPI from "../../mocks/cart";
 
 /**
- * Redux slice for managing the cart state.
- * @type {import("@reduxjs/toolkit").Slice}
+ * Initial state for the cart slice.
+ * @typedef {Object} InitialState
+ * @property {Array} cartItems - Array of items in the cart.
+ * @property {Object} shippingAddress - Shipping address information.
+ */
+
+/**
+ * Redux Toolkit Slice for managing cart-related state.
+ * @type {Object}
+ * @property {string} name - Name of the slice.
+ * @property {InitialState} initialState - Initial state for the slice.
+ * @property {Object} reducers - Redux reducers for the slice.
  */
 const cartSlice = createSlice({
   name: "cart",
   initialState: {
     cartItems: JSON.parse(localStorage.getItem("cartItems")) || [],
     shippingAddress: {},
-    paymentMethod: null, // Add this line to the initialState
   },
   reducers: {
     /**
-     * Sets the cart items in the state and updates the local storage.
-     * @param {object} state - The current state.
-     * @param {import("@reduxjs/toolkit").PayloadAction} action - The Redux action.
+     * Redux reducer for setting cart items.
+     * @function
+     * @param {Object} state - Current state.
+     * @param {Object} action - Redux action containing payload.
      */
     setCartItems(state, action) {
       state.cartItems = action.payload;
@@ -72,9 +88,10 @@ const cartSlice = createSlice({
     },
 
     /**
-     * Removes a cart item based on its ID.
-     * @param {object} state - The current state.
-     * @param {import("@reduxjs/toolkit").PayloadAction} action - The Redux action.
+     * Redux reducer for removing a cart item by ID.
+     * @function
+     * @param {Object} state - Current state.
+     * @param {Object} action - Redux action containing payload.
      */
     removeCartItem(state, action) {
       const id = action.payload;
@@ -83,9 +100,10 @@ const cartSlice = createSlice({
     },
 
     /**
-     * Sets the shipping address in the state and updates the local storage.
-     * @param {object} state - The current state.
-     * @param {import("@reduxjs/toolkit").PayloadAction} action - The Redux action.
+     * Redux reducer for setting shipping address.
+     * @function
+     * @param {Object} state - Current state.
+     * @param {Object} action - Redux action containing payload.
      */
     setShippingAddress(state, action) {
       state.shippingAddress = action.payload;
@@ -93,9 +111,10 @@ const cartSlice = createSlice({
     },
 
     /**
-     * Sets the payment method in the state and updates the local storage.
-     * @param {object} state - The current state.
-     * @param {import("@reduxjs/toolkit").PayloadAction} action - The Redux action.
+     * Redux reducer for setting payment method.
+     * @function
+     * @param {Object} state - Current state.
+     * @param {Object} action - Redux action containing payload.
      */
     setPaymentMethod(state, action) {
       state.paymentMethod = action.payload;
@@ -104,6 +123,15 @@ const cartSlice = createSlice({
   },
 });
 
+/**
+ * Actions for the cart slice.
+ * @type {Object}
+ * @property {Function} setCartItems - Action creator for setting cart items.
+ * @property {Function} removeCartItem - Action creator for removing a cart item.
+ * @property {Function} setShippingAddress - Action creator for setting shipping address.
+ * @property {Function} setPaymentMethod - Action creator for setting payment method.
+ */
+
 export const {
   setCartItems,
   removeCartItem,
@@ -111,7 +139,84 @@ export const {
   setPaymentMethod,
 } = cartSlice.actions;
 
+/**
+ * Action creator for adding an item to the cart.
+ * @function
+ * @param {string} id - Product ID.
+ * @param {number} qty - Quantity of the product.
+ * @returns {Function} - Thunk function for asynchronous dispatch.
+ */
+export const addToCart = (id, qty) => async (dispatch, getState) => {
+  try {
+    const { cartItems } = getState().cart;
+    const product = await cartAPI.fetchProduct(id);
+
+    let existingItemIndex = -1;
+
+    for (let i = 0; i &lt; cartItems.length; i++) {
+      if (cartItems[i]._id === id) {
+        existingItemIndex = i;
+        break;
+      }
+    }
+
+    if (existingItemIndex !== -1) {
+      // If an item with the same product ID exists, update its quantity
+      const updatedCartItems = [...cartItems];
+      updatedCartItems[existingItemIndex].qty += qty;
+      dispatch(setCartItems(updatedCartItems));
+    } else {
+      // If the product doesn't exist in the cart, add it as a new item
+      dispatch(setCartItems([...cartItems, { ...product, qty }]));
+    }
+  } catch (error) {
+    console.log("Error adding item to cart:", error);
+  }
+};
+
+/**
+ * Action creator for removing an item from the cart.
+ * @function
+ * @param {string} id - Product ID.
+ * @returns {Function} - Thunk function for asynchronous dispatch.
+ */
+export const removeFromCart = (id) => (dispatch, getState) => {
+  try {
+    dispatch(removeCartItem(id));
+  } catch (error) {
+    console.log("Error removing item from cart:", error);
+  }
+};
+
+/**
+ * Action creator for saving the shipping address.
+ * @function
+ * @param {Object} data - Shipping address information.
+ * @returns {Function} - Thunk function for asynchronous dispatch.
+ */
+export const saveShippingAddress = (data) => (dispatch) => {
+  dispatch(setShippingAddress(data));
+};
+
+/**
+ * Action creator for saving the payment method.
+ * @function
+ * @param {Object} data - Payment method information.
+ * @returns {Function} - Thunk function for asynchronous dispatch.
+ */
+export const savePaymentMethod = (data) => (dispatch) => {
+  dispatch(setPaymentMethod(data));
+};
+
+/**
+ * Redux Toolkit reducer for the cart slice.
+ * @type {Function}
+ */
 export const { reducer } = cartSlice;
+
+/**
+ * Default export for the cart slice.
+ */
 export default cartSlice;
 </code></pre>
         </article>
@@ -127,7 +232,7 @@ export default cartSlice;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Thu Feb 22 2024 22:32:39 GMT-0800 (Pacific Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sun Feb 25 2024 23:41:33 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>

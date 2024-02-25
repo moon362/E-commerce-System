@@ -31,7 +31,7 @@
     <input type="text" id="nav-search" placeholder="Search" />
     
     
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CartAPI.html">CartAPI</a><ul class='methods'><li data-type='method'><a href="CartAPI.html#fetchProduct">fetchProduct</a></li></ul></li><li><a href="OrderAPI.html">OrderAPI</a></li></ul><h3>Modules</h3><ul><li><a href="module-CartScreen.html">CartScreen</a><ul class='methods'><li data-type='method'><a href="module-CartScreen.html#~CartScreen">CartScreen</a></li></ul></li><li><a href="module-OrderScreen.html">OrderScreen</a></li></ul><h3>Global</h3><ul><li><a href="global.html"></a></li><li><a href="global.html#ProductCarousel">ProductCarousel</a></li><li><a href="global.html#SearchBox">SearchBox</a></li><li><a href="global.html#cartAPI">cartAPI</a></li><li><a href="global.html#cartSlice">cartSlice</a></li><li><a href="global.html#createOrder">createOrder</a></li><li><a href="global.html#deliverOrder">deliverOrder</a></li><li><a href="global.html#getOrderDetails">getOrderDetails</a></li><li><a href="global.html#initialState">initialState</a></li><li><a href="global.html#listMyOrders">listMyOrders</a></li><li><a href="global.html#listOrders">listOrders</a></li><li><a href="global.html#orderSlice">orderSlice</a></li><li><a href="global.html#payOrder">payOrder</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CartAPI.html">CartAPI</a><ul class='methods'><li data-type='method'><a href="CartAPI.html#fetchProduct">fetchProduct</a></li></ul></li><li><a href="OrderAPI.html">OrderAPI</a></li></ul><h3>Modules</h3><ul><li><a href="module-CartScreen.html">CartScreen</a><ul class='methods'><li data-type='method'><a href="module-CartScreen.html#~CartScreen">CartScreen</a></li></ul></li><li><a href="module-CartSlice.html">CartSlice</a><ul class='methods'><li data-type='method'><a href="module-CartSlice.html#.addToCart">addToCart</a></li><li data-type='method'><a href="module-CartSlice.html#.removeFromCart">removeFromCart</a></li><li data-type='method'><a href="module-CartSlice.html#.savePaymentMethod">savePaymentMethod</a></li><li data-type='method'><a href="module-CartSlice.html#.saveShippingAddress">saveShippingAddress</a></li></ul></li><li><a href="module-Loader.html">Loader</a><ul class='methods'><li data-type='method'><a href="module-Loader.html#.Loader">Loader</a></li></ul></li><li><a href="module-LoginScreen.html">LoginScreen</a><ul class='methods'><li data-type='method'><a href="module-LoginScreen.html#~LoginScreen">LoginScreen</a></li></ul></li><li><a href="module-OrderScreen.html">OrderScreen</a></li><li><a href="module-ProductSlice.html">ProductSlice</a><ul class='methods'><li data-type='method'><a href="module-ProductSlice.html#.createReview">createReview</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchProductDetails">fetchProductDetails</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchProductList">fetchProductList</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchTopRatedProducts">fetchTopRatedProducts</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html"></a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormContainer">FormContainer</a></li><li><a href="global.html#PaymentScreen">PaymentScreen</a></li><li><a href="global.html#PlaceOrderScreen">PlaceOrderScreen</a></li><li><a href="global.html#Product">Product</a></li><li><a href="global.html#ProductCarousel">ProductCarousel</a></li><li><a href="global.html#ProfileScreen">ProfileScreen</a></li><li><a href="global.html#Rating">Rating</a></li><li><a href="global.html#SearchBox">SearchBox</a></li><li><a href="global.html#ShippingScreen">ShippingScreen</a></li><li><a href="global.html#cartAPI">cartAPI</a></li><li><a href="global.html#createOrder">createOrder</a></li><li><a href="global.html#deliverOrder">deliverOrder</a></li><li><a href="global.html#getOrderDetails">getOrderDetails</a></li><li><a href="global.html#initialState">initialState</a></li><li><a href="global.html#listMyOrders">listMyOrders</a></li><li><a href="global.html#listOrders">listOrders</a></li><li><a href="global.html#orderSlice">orderSlice</a></li><li><a href="global.html#payOrder">payOrder</a></li><li><a href="global.html#product_screen">product_screen</a></li><li><a href="global.html#useStyles">useStyles</a></li></ul>
     
 </nav>
 
@@ -51,125 +51,125 @@
  * @module CartScreen
  */
 
- import React, { useEffect } from "react";
- import { Link } from "react-router-dom";
- import {
-   Row,
-   Col,
-   Image,
-   ListGroup,
-   Button,
-   Card,
-   Form,
- } from "react-bootstrap";
- import { useDispatch, useSelector } from "react-redux";
- import Message from "../components/Message";
- import { removeFromCart } from "../redux/slices/cartSlice";
- 
- /**
-  * CartScreen functional component.
-  * @param {object} props - Component properties.
-  * @param {object} props.history - History object from React Router.
-  * @returns {JSX.Element} JSX element representing the CartScreen component.
-  */
- function CartScreen({ history }) {
-   const dispatch = useDispatch();
-   
-   /**
-    * Redux state for the cart.
-    * @type {object}
-    * @property {object[]} cartItems - Array of items in the cart.
-    */
-   const cart = useSelector((state) => state.cart);
-   const { cartItems } = cart;
- 
-   /**
-    * Handles removing an item from the cart.
-    * @param {string} id - ID of the item to be removed.
-    * @returns {void}
-    */
-   const removeFromCartHandler = (id) => {
-     dispatch(removeFromCart(id));
-   };
- 
-   /**
-    * Handles the checkout process.
-    * Redirects to the login page with a redirect parameter set to "shipping".
-    * @returns {void}
-    */
-   const checkoutHandler = () => {
-     history.push("/login?redirect=shipping");
-   };
- 
-   return (
-     &lt;Row>
-       &lt;Col md={8}>
-         &lt;h1>Shopping Cart&lt;/h1>
-         {cartItems.length === 0 ? (
-           &lt;Message variant="info">
-             Your cart is empty. &lt;Link to="/">Go Back&lt;/Link>
-           &lt;/Message>
-         ) : (
-           &lt;ListGroup variant="flush">
-             {cartItems.map((item) => (
-               &lt;ListGroup.Item key={item.product}>
-                 &lt;Row>
-                   &lt;Col md={2}>
-                     &lt;Image src={item.image} alt={item.name} fluid rounded />
-                   &lt;/Col>
-                   &lt;Col m={3}>
-                     &lt;Link to={`/product/${item._id}`}>{item.name}&lt;/Link>
-                   &lt;/Col>
-                   &lt;Col>{item.qty}&lt;/Col>
-                   &lt;Col>₹{item.price}&lt;/Col>
-                   &lt;Col md={1}>
-                     &lt;Button
-                       type="button"
-                       variant="light"
-                       onClick={() => removeFromCartHandler(item._id)}
-                     >
-                       &lt;i className="fas fa-trash">&lt;/i>
-                     &lt;/Button>
-                   &lt;/Col>
-                 &lt;/Row>
-               &lt;/ListGroup.Item>
-             ))}
-           &lt;/ListGroup>
-         )}
-       &lt;/Col>
- 
-       &lt;Col md={4}>
-         &lt;Card>
-           &lt;ListGroup variant="flush">
-             &lt;ListGroup.Item>
-               &lt;h2>
-                 Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
-                 items
-               &lt;/h2>
-               ₹
-               {cartItems
-                 .reduce((acc, item) => acc + item.qty * item.price, 0)
-                 .toFixed(2)}
-             &lt;/ListGroup.Item>
-           &lt;/ListGroup>
-           &lt;ListGroup.Item>
-             &lt;Button
-               type="button"
-               className="w-100"
-               disabled={cartItems.length === 0}
-               onClick={checkoutHandler}
-             >
-               Proceed To Checkout
-             &lt;/Button>
-           &lt;/ListGroup.Item>
-         &lt;/Card>
-       &lt;/Col>
-     &lt;/Row>
-   );
- }
- 
- export default CartScreen;
- </code></pre>
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import {
+  Row,
+  Col,
+  Image,
+  ListGroup,
+  Button,
+  Card,
+  Form,
+} from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import Message from "../components/Message";
+import { removeFromCart } from "../redux/slices/cartSlice";
+
+/**
+ * CartScreen functional component.
+ * @param {object} props - Component properties.
+ * @param {object} props.history - History object from React Router.
+ * @returns {JSX.Element} JSX element representing the CartScreen component.
+ */
+function CartScreen({ history }) {
+  const dispatch = useDispatch();
+
+  /**
+   * Redux state for the cart.
+   * @type {object}
+   * @property {object[]} cartItems - Array of items in the cart.
+   */
+  const cart = useSelector((state) => state.cart);
+  const { cartItems } = cart;
+
+  /**
+   * Handles removing an item from the cart.
+   * @param {string} id - ID of the item to be removed.
+   * @returns {void}
+   */
+  const removeFromCartHandler = (id) => {
+    dispatch(removeFromCart(id));
+  };
+
+  /**
+   * Handles the checkout process.
+   * Redirects to the login page with a redirect parameter set to "shipping".
+   * @returns {void}
+   */
+  const checkoutHandler = () => {
+    history.push("/login?redirect=shipping");
+  };
+
+  return (
+    &lt;Row>
+      &lt;Col md={8}>
+        &lt;h1>Shopping Cart&lt;/h1>
+        {cartItems.length === 0 ? (
+          &lt;Message variant="info">
+            Your cart is empty. &lt;Link to="/">Go Back&lt;/Link>
+          &lt;/Message>
+        ) : (
+          &lt;ListGroup variant="flush">
+            {cartItems.map((item) => (
+              &lt;ListGroup.Item key={item.product}>
+                &lt;Row>
+                  &lt;Col md={2}>
+                    &lt;Image src={item.image} alt={item.name} fluid rounded />
+                  &lt;/Col>
+                  &lt;Col m={3}>
+                    &lt;Link to={`/product/${item._id}`}>{item.name}&lt;/Link>
+                  &lt;/Col>
+                  &lt;Col>{item.qty}&lt;/Col>
+                  &lt;Col>₹{item.price}&lt;/Col>
+                  &lt;Col md={1}>
+                    &lt;Button
+                      type="button"
+                      variant="light"
+                      onClick={() => removeFromCartHandler(item._id)}
+                    >
+                      &lt;i className="fas fa-trash">&lt;/i>
+                    &lt;/Button>
+                  &lt;/Col>
+                &lt;/Row>
+              &lt;/ListGroup.Item>
+            ))}
+          &lt;/ListGroup>
+        )}
+      &lt;/Col>
+
+      &lt;Col md={4}>
+        &lt;Card>
+          &lt;ListGroup variant="flush">
+            &lt;ListGroup.Item>
+              &lt;h2>
+                Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
+                items
+              &lt;/h2>
+              ₹
+              {cartItems
+                .reduce((acc, item) => acc + item.qty * item.price, 0)
+                .toFixed(2)}
+            &lt;/ListGroup.Item>
+          &lt;/ListGroup>
+          &lt;ListGroup.Item>
+            &lt;Button
+              type="button"
+              className="w-100"
+              disabled={cartItems.length === 0}
+              onClick={checkoutHandler}
+            >
+              Proceed To Checkout
+            &lt;/Button>
+          &lt;/ListGroup.Item>
+        &lt;/Card>
+      &lt;/Col>
+    &lt;/Row>
+  );
+}
+
+export default CartScreen;
+</code></pre>
         </article>
     </section>
 
@@ -183,7 +183,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Thu Feb 22 2024 22:32:39 GMT-0800 (Pacific Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sun Feb 25 2024 23:41:33 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
 </footer>
 
 <script>prettyPrint();</script>
