@@ -32,9 +32,8 @@ jobs:
           pip install -r backend/requirements.txt
 
       - name: Set DJANGO_SETTINGS_MODULE
-        run: |
-          cd backend
-          export DJANGO_SETTINGS_MODULE=backend.settings
+        run: 
+          cd backend && export DJANGO_SETTINGS_MODULE=backend.settings
         # Replace 'your_project.settings' with the path to your Django settings module
 
       - name: Print environment variables
