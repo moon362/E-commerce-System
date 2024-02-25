@@ -20,16 +20,28 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
-      - name: Print other directory
-        run: cd backend && ls
-      - name: Install dependencies
-        run: pip install -r backend/requirements.txt
-      - name: Print working directory
-        run: pwd
+
       - name: Navigate to backend directory
         run: cd backend
+
       - name: Print working directory
         run: pwd
-     
+
+      - name: Install dependencies
+        run: |
+          pip install -r backend/requirements.txt
+
+      - name: Set DJANGO_SETTINGS_MODULE
+        run: |
+          cd backend
+          export DJANGO_SETTINGS_MODULE=backend.settings
+        # Replace 'your_project.settings' with the path to your Django settings module
+
+      - name: Print environment variables
+        run: env | grep DJANGO_SETTINGS_MODULE
+
       - name: Run tests
-        run: cd backend && ls && pytest
+        run: |
+          cd backend
+          ls   
+          pytest
