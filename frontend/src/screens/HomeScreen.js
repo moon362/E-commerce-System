@@ -5,22 +5,20 @@ import Product from "../components/Product";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import ProductCarousel from "../components/ProductCarousel";
-import { fetchProductList } from "../redux/slices/productSlice";
+import { fetch_product_list } from "../redux/slices/productSlice";
 import Paginate from "../components/Paginate";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
-
-
 /**
- * The HomeScreen component is a React component that displays a list of products and a carousel of
+ * The home_screen component is a React component that displays a list of products and a carousel of
  * top-rated products.
- * @returns The HomeScreen component is returning JSX elements, including conditional rendering for the
+ * @returns The home_screen component is returning JSX elements, including conditional rendering for the
  * top-rated products carousel, a header for the top-rated products, the ProductCarousel component, a
  * header for the latest products, and a grid of products. It also includes conditional rendering for a
  * loader while products are loading, an error message if there's an error fetching products, and a
  * pagination component.
  */
-function HomeScreen({ history }) {
+function home_screen({ history }) {
   // Redux hooks
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.product.productList);
@@ -32,7 +30,7 @@ function HomeScreen({ history }) {
 
   // Fetch product list from the server
   useEffect(() => {
-    dispatch(fetchProductList(keyword, pageNumber)); // Dispatching action to fetch product list
+    dispatch(fetch_product_list(keyword, pageNumber)); // Dispatching action to fetch product list
   }, [dispatch, keyword, pageNumber]); // Dependencies for useEffect
 
   // Rendering JSX
@@ -70,4 +68,4 @@ function HomeScreen({ history }) {
   );
 }
 
-export default HomeScreen; // Exporting HomeScreen component
+export default home_screen; // Exporting HomeScreen component
