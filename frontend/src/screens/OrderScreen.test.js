@@ -27,12 +27,7 @@ describe('OrderScreen Component', () => {
       },
       loading: false,
       error: null,
-    },
-    user: {
-      userDetails: {
-        // Mock user details as needed
-      },
-    },
+    }
   };
   let store;
 
