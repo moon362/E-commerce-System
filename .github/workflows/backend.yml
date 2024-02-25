@@ -32,4 +32,4 @@ jobs:
         run: pwd
      
       - name: Run tests
-        run: cd backend && python manage.py test && ls
+        run: cd backend && ls && python manage.py test
