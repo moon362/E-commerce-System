@@ -31,7 +31,7 @@ from api.serializers import ProductSerializer
 """
 # Get all the products with query
 @api_view(['GET'])
-def GetProducts(request):
+def get_products(request):
     query = request.query_params.get('keyword')
     if query == None:
         query = ''
@@ -74,7 +74,7 @@ def GetProducts(request):
     """
 # Top Products
 @api_view(['GET'])
-def GetTopProducts(request):
+def get_top_products(request):
     products = Product.objects.filter(rating__gte=4).order_by('-rating')[0:5]
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
@@ -91,7 +91,7 @@ def GetTopProducts(request):
     :return: the serialized data of a single product.
     """
 @api_view(['GET'])
-def GetProduct(request, pk):
+def get_product(request, pk):
     product = Product.objects.get(_id=pk)
     serializer = ProductSerializer(product, many=False)
     return Response(serializer.data)
@@ -110,7 +110,7 @@ def GetProduct(request, pk):
     """
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def CreateProductReview(request, pk):
+def create_product_review(request, pk):
     user = request.user
     product = Product.objects.get(_id=pk)
     data = request.data

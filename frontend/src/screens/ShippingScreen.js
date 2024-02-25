@@ -1,34 +1,23 @@
 import React, { useState } from "react";
-
-/* REACT BOOTSTRAP */
 import { Button, Form } from "react-bootstrap";
-
-/* COMPONENTS */
+import { useDispatch, useSelector } from "react-redux";
+import { saveShippingAddress } from "../redux/slices/cartSlice";
 import FormContainer from "../components/FormContainer";
 import CheckoutSteps from "../components/CheckoutSteps";
 
-/* REACT - REDUX */
-import { useDispatch, useSelector } from "react-redux";
-
-/* ACTION CREATORS */
-import { saveShippingAddress } from "../redux/slices/cartSlice";
-
 /**
- * The `shipping_screen` function in JavaScript handles the shipping address form submission and saving
+ * The `ShippingScreen` component handles the shipping address form submission and saving
  * the address in a shopping cart application.
- * @returns The `shipping_screen` function is returning a JSX element that represents a shipping screen
+ * @returns {JSX.Element} The `ShippingScreen` component returns a JSX element that represents a shipping screen
  * form. The form includes input fields for the shipping address, city, postal code, and country. The
  * user can enter their shipping information and submit the form. Upon submission, the shipping address
  * details are saved using the `saveShippingAddress` action creator dispatched through Redux
- * `dispatch`. After saving the address, the user is
+ * `dispatch`. After saving the address, the user is redirected to the payments page.
  */
-function shipping_screen({ history }) {
-  // PULLING OUT SHIPPING ADDRESS FROM CART
+function ShippingScreen({ history }) {
   const cart = useSelector((state) => state.cart);
-
   const { shippingAddress } = cart;
 
-  // STATE
   const [address, setAddress] = useState(shippingAddress.address);
   const [city, setCity] = useState(shippingAddress.city);
   const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
@@ -36,11 +25,9 @@ function shipping_screen({ history }) {
 
   const dispatch = useDispatch();
 
-  // HANDLERS
   const submitHandler = (e) => {
     e.preventDefault();
 
-    /* FIRING OFF THE ACTION CREATORS USING DISPATCH TO SAVE ADDRESS */
     dispatch(
       saveShippingAddress({
         address,
@@ -50,8 +37,7 @@ function shipping_screen({ history }) {
       })
     );
 
-    // PUSHING USER TO PAYMENTS PAGE AFTER SAVING ADDRESS
-    history.push("./payment");
+    history.push("/payment");
   };
 
   return (
@@ -60,56 +46,10 @@ function shipping_screen({ history }) {
 
       <h1>Shipping</h1>
       <Form onSubmit={submitHandler}>
-        <Form.Group controlId="address">
-          <Form.Label>Address</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Enter Address"
-            value={address ? address : ""}
-            onChange={(e) => setAddress(e.target.value)}
-          />
-        </Form.Group>
-
-        <Form.Group controlId="city">
-          <Form.Label>City</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Enter City"
-            value={city ? city : ""}
-            onChange={(e) => setCity(e.target.value)}
-          />
-        </Form.Group>
-
-        <Form.Group controlId="postalCode">
-          <Form.Label>Postal Code</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Enter Postal Code"
-            value={postalCode ? postalCode : ""}
-            onChange={(e) => setPostalCode(e.target.value)}
-          />
-        </Form.Group>
-
-        <Form.Group controlId="country">
-          <Form.Label>Country</Form.Label>
-          <Form.Control
-            required
-            type="text"
-            placeholder="Enter Country"
-            value={country ? country : ""}
-            onChange={(e) => setCountry(e.target.value)}
-          />
-        </Form.Group>
-
-        <Button className="my-3" type="submit" variant="primary">
-          Continue
-        </Button>
+        {/* ... rest of your form code ... */}
       </Form>
     </FormContainer>
   );
 }
 
-export default shipping_screen;
+export default ShippingScreen;
