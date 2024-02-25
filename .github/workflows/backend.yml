@@ -23,6 +23,15 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r backend/requirements.txt
-
+      - name: Navigate to backend directory
+        run: cd backend
+      - name: Check working directory
+        run: |
+          if [[ $(pwd) == *"backend"* ]]; then
+            echo "Already in backend directory."
+          else
+            echo "Error: Not in backend directory. Please navigate to the backend directory before running tests."
+            exit 1
+          fi
       - name: Run tests
         run: python backend/manage.py test
