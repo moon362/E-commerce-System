@@ -21,11 +21,11 @@ class UserViewsTestCase(APITestCase):
         token = RefreshToken.for_user(self.test_user)
         self.access_token = str(token.access_token)
 
-    # def test_get_routes(self):
-    #     # Test GET request to get API routes
-    #     url = reverse('get-routes')
-    #     response = self.client.get(url)
-    #     self.assertEqual(response.status_code, status.HTTP_200_OK)
+    def test_get_routes(self):
+        # Test GET request to get API routes
+        url = reverse('get-routes')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_register_user(self):
         # Test POST request to register a new user
