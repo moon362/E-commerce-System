@@ -3,18 +3,17 @@ name: Backend CI
 on:
   push:
     branches:
-      - main
-      - rasel  # Adjust this to your branch name
+      - rasel
   pull_request:
     branches:
       - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Set up Python
@@ -25,6 +24,10 @@ jobs:
       - name: Install dependencies
         run: pip install -r backend/requirements.txt
 
-      - name: Run tests
+      - name: Set up Django environment
         run: |
-          pytest
+          export DJANGO_SETTINGS_MODULE=backend.settings
+          python backend/manage.py migrate --noinput
+
+      - name: Run tests
+        run: pytest backend
