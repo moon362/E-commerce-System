@@ -24,10 +24,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r backend/requirements.txt
 
-      - name: Set up Django environment
-        run: |
-          export DJANGO_SETTINGS_MODULE=../backend/backend/settings.py
-          python backend/manage.py migrate --noinput
+ 
 
       - name: Run tests
-        run: pytest backend
+        run: py manage.py test
