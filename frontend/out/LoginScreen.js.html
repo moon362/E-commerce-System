@@ -26,6 +26,7 @@
     
     <section>
         <article>
+<<<<<<< HEAD
             <pre class="prettyprint source linenums"><code>// Import necessary modules and components from React, Material-UI, React Router, and Redux
 /**
  * @module LoginScreen
@@ -36,6 +37,9 @@
  * @returns {JSX.Element} - Rendered component.
  */
 import React, { useState, useEffect } from "react";
+=======
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from "react";
+>>>>>>> minhaj
 import { Link } from "react-router-dom";
 import { Grid, TextField, Button, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -47,6 +51,7 @@ import Message from "../components/Message";
 import Loader from "../components/Loader";
 import FormContainer from "../components/FormContainer";
 
+<<<<<<< HEAD
 
 // Define styles using Material-UI makeStyles hook
 const useStyles = makeStyles((theme) => ({
@@ -78,12 +83,39 @@ function LoginScreen({ location, history }) {
   const redirect = location.search ? location.search.split("=")[1] : "/";
 
   // useEffect hook to redirect to the specified path once the user is logged in
+=======
+/**
+ * @component
+ * @description LoginScreen component handles user login functionality.
+ * @param {Object} props - React component props.
+ * @param {Object} props.location - The location object containing information about the current URL.
+ * @param {Object} props.history - The history object to navigate between pages.
+ */
+function LoginScreen({ location, history }) {
+  // Styles for Material-UI components
+  const classes = useStyles();
+
+  // State hooks for managing form input fields
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Redux hooks for dispatching actions and selecting data from the store
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.user);
+  const { userDetails, loading, error } = userLogin;
+
+  // Extracting redirect path from the URL or setting a default value
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
+  // Redirect the user to the specified path if userDetails are available
+>>>>>>> minhaj
   useEffect(() => {
     if (userDetails) {
       history.replace(redirect);
     }
   }, [history, userDetails, redirect]);
 
+<<<<<<< HEAD
   // Event handler for form submission
   const submitHandler = (e) => {
     e.preventDefault();
@@ -92,6 +124,19 @@ function LoginScreen({ location, history }) {
   };
 
   // JSX for the Login Screen
+=======
+  /**
+   * @function
+   * @description Handles the form submission.
+   * @param {Object} e - The event object.
+   */
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(login(email, password));
+  };
+
+  // Render the component
+>>>>>>> minhaj
   return (
     &lt;FormContainer>
       &lt;Typography component="h1" style={{ fontWeight: "bold" }} variant="h5">
@@ -102,7 +147,10 @@ function LoginScreen({ location, history }) {
       &lt;form className={classes.form} onSubmit={submitHandler}>
         &lt;Grid container spacing={2}>
           &lt;Grid item xs={12}>
+<<<<<<< HEAD
             {/* Text field for email input */}
+=======
+>>>>>>> minhaj
             &lt;TextField
               variant="filled"
               required
@@ -116,7 +164,10 @@ function LoginScreen({ location, history }) {
             />
           &lt;/Grid>
           &lt;Grid item xs={12}>
+<<<<<<< HEAD
             {/* Text field for password input */}
+=======
+>>>>>>> minhaj
             &lt;TextField
               variant="filled"
               required
@@ -131,7 +182,10 @@ function LoginScreen({ location, history }) {
             />
           &lt;/Grid>
         &lt;/Grid>
+<<<<<<< HEAD
         {/* Button for submitting the form */}
+=======
+>>>>>>> minhaj
         &lt;Button
           type="submit"
           fullWidth
@@ -143,7 +197,10 @@ function LoginScreen({ location, history }) {
         &lt;/Button>
         &lt;Grid container justify="flex-start">
           &lt;Grid item>
+<<<<<<< HEAD
             {/* Link to the registration page */}
+=======
+>>>>>>> minhaj
             New Customer?{" "}
             &lt;Link
               to={redirect ? `/register?redirect=${redirect}` : "/register"}
@@ -158,7 +215,10 @@ function LoginScreen({ location, history }) {
   );
 }
 
+<<<<<<< HEAD
 // Export the LoginScreen component as the default export
+=======
+>>>>>>> minhaj
 export default LoginScreen;
 </code></pre>
         </article>
@@ -170,13 +230,21 @@ export default LoginScreen;
 </div>
 
 <nav>
+<<<<<<< HEAD
     <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-LoginScreen.html">LoginScreen</a></li></ul><h3>Global</h3><ul><li><a href="global.html#useStyles">useStyles</a></li></ul>
+=======
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#LoginScreen">LoginScreen</a></li></ul>
+>>>>>>> minhaj
 </nav>
 
 <br class="clear">
 
 <footer>
+<<<<<<< HEAD
     Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Feb 16 2024 19:19:28 GMT+0600 (Bangladesh Standard Time)
+=======
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Sat Feb 17 2024 00:26:53 GMT+0600 (Bangladesh Standard Time)
+>>>>>>> minhaj
 </footer>
 
 <script> prettyPrint(); </script>
