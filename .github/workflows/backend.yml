@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: '3.x'
       - name: Print other directory
-        run: ls
+        run: cd backend && ls
       - name: Install dependencies
         run: pip install -r backend/requirements.txt
       - name: Print working directory
