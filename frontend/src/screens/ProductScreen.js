@@ -1,7 +1,7 @@
 /**
- * The `ProductScreen` component in JavaScript displays product details, allows adding to cart, and
+ * The `product_screen` component in JavaScript displays product details, allows adding to cart, and
  * submitting reviews with user authentication.
- * @returns {JSX.Element} The `ProductScreen` component is being returned. It consists of JSX elements that display
+ * @returns {JSX.Element} The `product_screen` component is being returned. It consists of JSX elements that display
  * product details, allow users to add the product to cart, view reviews, and write a review. The
  * component also handles state management using `useState` hooks, dispatch actions using
  * `useDispatch`, and access state using `useSelector`. The component also includes event handlers for
@@ -29,7 +29,7 @@ import { addToCart } from "../redux/slices/cartSlice";
  * @param {object} props.history - The history object for navigation.
  * @returns {JSX.Element} Rendered component.
  */
-function ProductScreen({ match, history }) {
+function product_screen({ match, history }) {
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -230,4 +230,4 @@ function ProductScreen({ match, history }) {
   );
 }
 
-export default ProductScreen;
+export default product_screen;
