@@ -23,6 +23,8 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r backend/requirements.txt
+      - name: Print working directory
+        run: pwd
       - name: Navigate to backend directory
         run: cd backend
       - name: Print working directory
