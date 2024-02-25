@@ -26,12 +26,12 @@ jobs:
 
     - name: Run tests for CartScreen
       run: |
-        cd frontend 
+        cd frontend  
         npm test CartScreen.test.js
 
     - name: Run tests for OrderScreen
       run: |
-        cd frontend 
+        cd frontend  
         npm test OrderScreen.test.js
 
     - name: Set up Python
@@ -41,7 +41,7 @@ jobs:
 
     - name: Install Django dependencies
       run: |
-        cd backend 
+        cd backend  
         pip install -r requirements.txt
 
     - name: Run Django tests
