@@ -9,7 +9,7 @@ from api.models import Order, Product
 class OrderViewTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.user = User.objects.create_user(username='testuse', password='tetpassword')
         self.client.force_authenticate(user=self.user)
 
     # def test_add_order_items(self):

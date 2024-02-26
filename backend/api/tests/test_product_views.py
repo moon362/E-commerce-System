@@ -13,7 +13,7 @@ def api_client():
 
 @pytest.fixture
 def user():
-    return User.objects.create_user(username='testuser', password='testpassword')
+    return User.objects.create_user(username='testuse', password='testpasword')
 
 @pytest.mark.django_db
 def test_get_products(api_client):
