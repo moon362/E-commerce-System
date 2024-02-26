@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>components/Loader.js - Documentation</title>
+    <title>screens/PaymentScreen.js - Documentation</title>
     
     
     <script src="scripts/prettify/prettify.js"></script>
@@ -37,7 +37,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">components/Loader.js</h1>
+    <h1 class="page-title">screens/PaymentScreen.js</h1>
     
 
     
@@ -47,38 +47,86 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React from "react";
-import CircularProgress from "@material-ui/core/CircularProgress";
+            <pre class="prettyprint source linenums"><code>import React, { useState } from "react";
+
+/* REACT BOOTSTRAP */
+import { Button, Form, Col } from "react-bootstrap";
+
+/* COMPONENTS */
+import FormContainer from "../components/FormContainer";
+import CheckoutSteps from "../components/CheckoutSteps";
+
+/* REACT - REDUX */
+import { useDispatch, useSelector } from "react-redux";
+
+/* ACTION CREATORS */
+import { savePaymentMethod } from "../redux/slices/cartSlice";
 
 /**
- * Module for displaying loading spinners.
- *
- * @module Loader
+ * React component for the payment screen.
+ * @param {Object} props - React props.
+ * @param {Object} props.history - History object for navigation.
  */
+function PaymentScreen({ history }) {
 
-/**
- * Functional component for displaying a loading spinner.
- *
- * @function Loader
- * @returns {React.ReactElement} The rendered `Loader` component, displaying a circular loading spinner.
- * @memberOf module:Loader
- */
-function Loader() {
+  // PULLING OUT SHIPPING ADDRESS FROM CART
+  const cart = useSelector((state) => state.cart);
+
+  const { shippingAddress } = cart;
+
+  // STATE
+  const [paymentMethod, setPaymentMethod] = useState("PayPal");
+
+  /* IF NO SHIPPING ADDRESS THEN REDIRECT TO ShippingAddress SCREEN */
+  if (!shippingAddress.address) {
+    history.push("/shipping");
+  }
+
+  // HANDLERS
+
+  const dispatch = useDispatch();
+
+  /**
+   * Function to handle form submission.
+   * @param {Object} e - Event object.
+   */
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    dispatch(savePaymentMethod(paymentMethod));
+
+    // AFTER CHOOSING THE PAYMENT METHOD REDIRECT USER TO PlaceOrder SCREEN
+    history.push("/placeorder");
+  };
+
   return (
-    &lt;div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      &lt;CircularProgress size={100} />
-    &lt;/div>
+    &lt;FormContainer>
+      &lt;CheckoutSteps step1 step2 step3 />
+
+      &lt;Form onSubmit={submitHandler}>
+        &lt;Form.Group>
+          &lt;Form.Label as="legend">Select Method&lt;/Form.Label>
+          &lt;Col>
+            &lt;Form.Check
+              type="radio"
+              label="PayPal or Credit Card"
+              id="paypal"
+              name="paymentMethod"
+              checked
+              onChange={(e) => setPaymentMethod(e.target.value)}
+            >&lt;/Form.Check>
+          &lt;/Col>
+        &lt;/Form.Group>
+
+        &lt;Button type="submit" variant="primary" className="my-3">
+          Continue
+        &lt;/Button>
+      &lt;/Form>
+    &lt;/FormContainer>
   );
 }
 
-export default Loader;
+export default PaymentScreen;
 </code></pre>
         </article>
     </section>

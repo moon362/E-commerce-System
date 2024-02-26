@@ -3,12 +3,6 @@ import MuiAlert from "@mui/material/Alert";
 import { styled } from "@mui/material/styles";
 
 /**
- * Module for displaying alert messages with styling.
- *
- * @module Message
- */
-
-/**
  * Styled component for displaying alert messages.
  *
  * @function StyledAlert

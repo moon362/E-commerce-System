@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>screens/PlaceOrderScreen.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Loader.html">Loader</a><ul class='methods'><li data-type='method'><a href="module-Loader.html#.Loader">Loader</a></li></ul></li><li><a href="module-LoginScreen.html">LoginScreen</a><ul class='methods'><li data-type='method'><a href="module-LoginScreen.html#~LoginScreen">LoginScreen</a></li></ul></li><li><a href="module-Message.html">Message</a><ul class='methods'><li data-type='method'><a href="module-Message.html#.Message">Message</a></li><li data-type='method'><a href="module-Message.html#.StyledAlert">StyledAlert</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#PaymentScreen">PaymentScreen</a></li><li><a href="global.html#PlaceOrderScreen">PlaceOrderScreen</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">screens/PlaceOrderScreen.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Button, Row, Col, ListGroup, Image, Card } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { createOrder, getOrderDetails } from "../redux/slices/orderSlice";
+import CheckoutSteps from "../components/CheckoutSteps";
+import Message from "../components/Message";
+import { fetchUserDetails } from "../redux/slices/userSlice";
+
+/**
+ * React component for the place order screen.
+ * @param {Object} props - React props.
+ * @param {Object} props.history - History object for navigation.
+ */
+function PlaceOrderScreen({ history }) {
+  const dispatch = useDispatch();
+  const order = useSelector((state) => state.order);
+  const { orderDetails, loading, error } = order;
+  const cart = useSelector((state) => state.cart);
+
+  // PRICE CALCULATIONS
+  const itemsPrice = cart.cartItems.reduce(
+    (acc, item) => acc + item.price * item.qty,
+    0
+  );
+
+  const shippingPrice = itemsPrice > 100 ? 0 : 10;
+  const taxPrice = Number((0.082 * itemsPrice).toFixed(2));
+  const totalPrice = (
+    Number(itemsPrice) +
+    Number(shippingPrice) +
+    Number(taxPrice)
+  ).toFixed(2);
+
+  if (!cart.paymentMethod) {
+    history.push("/payment");
+  }
+
+  /**
+   * Data object containing order details.
+   * @type {Object}
+   * @property {Array} orderItems - List of items in the order.
+   * @property {Object} shippingAddress - Shipping address details.
+   * @property {string} paymentMethod - Chosen payment method.
+   * @property {string} itemsPrice - Total price of items.
+   * @property {string} shippingPrice - Shipping cost.
+   * @property {string} taxPrice - Tax amount.
+   * @property {string} totalPrice - Total order price.
+   */
+  const orderData = {
+    orderItems: cart.cartItems,
+    shippingAddress: cart.shippingAddress,
+    paymentMethod: cart.paymentMethod,
+    itemsPrice: itemsPrice.toFixed(2).toString(),
+    shippingPrice: shippingPrice.toFixed(2).toString(),
+    taxPrice: taxPrice.toFixed(2).toString(),
+    totalPrice: totalPrice.toString(),
+  };
+
+  /**
+   * Function to place an order.
+   */
+  const placeOrder = () => {
+    dispatch(createOrder(orderData))
+      .then(() => {
+        setTimeout(() => {
+          console.log(orderDetails);
+          history.push(`/orderDetail`);
+        }, 1000); // Delay of 1 second (1000 milliseconds)
+      })
+      .catch((error) => {
+        // Handle any error that occurred during order creation
+      });
+  };
+
+  return (
+    &lt;div>
+      &lt;CheckoutSteps step1 step2 step3 step4 />
+      &lt;Row>
+        &lt;Col md={8}>
+          &lt;ListGroup variant="flush">
+            &lt;ListGroup.Item>
+              &lt;h2>Shipping&lt;/h2>
+              &lt;p>
+                &lt;strong>Shipping Address: &lt;/strong>
+                {cart.shippingAddress.address}, {cart.shippingAddress.city},{" "}
+                {cart.shippingAddress.postalCode},{" "}
+                {cart.shippingAddress.country}
+              &lt;/p>
+            &lt;/ListGroup.Item>
+            {/* ... other list group items */}
+          &lt;/ListGroup>
+        &lt;/Col>
+        &lt;Col md={4}>
+          &lt;Card>
+            &lt;ListGroup variant="flush">
+              &lt;ListGroup.Item>
+                &lt;h2>Order Summary&lt;/h2>
+              &lt;/ListGroup.Item>
+              {/* ... other list group items */}
+            &lt;/ListGroup>
+          &lt;/Card>
+        &lt;/Col>
+      &lt;/Row>
+    &lt;/div>
+  );
+}
+
+export default PlaceOrderScreen;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Fri Feb 23 2024 15:07:43 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>
