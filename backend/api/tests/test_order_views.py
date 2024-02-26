@@ -1,3 +1,5 @@
+import django
+django.setup()
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
@@ -64,4 +66,4 @@ class OrderViewTests(APITestCase):
         response = self.client.put(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        # Add additional assertions based on your application logic
+        # Add additional assertions based on your application logic
