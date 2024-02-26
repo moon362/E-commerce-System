@@ -35,6 +35,9 @@ jobs:
         run: 
           cd backend && export DJANGO_SETTINGS_MODULE=backend.settings
         # Replace 'your_project.settings' with the path to your Django settings module
+      - name: Run Test
+        working-directory: backend
+        run: python manage.py test
 
 
 
