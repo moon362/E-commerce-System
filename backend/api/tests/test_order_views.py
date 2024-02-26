@@ -1,13 +1,16 @@
+import django
+django.setup()
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient, APITestCase
 from django.contrib.auth.models import User
 from api.models import Order, Product
-
+import uuid
 class OrderViewTests(APITestCase):
     def setUp(self):
         self.client = APIClient()
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        unique_username = f"testuser_{uuid.uuid4().hex[:10]}"  # Generating a unique username
+        self.user = User.objects.create_user(username=unique_username, password='tetpassword')
         self.client.force_authenticate(user=self.user)
 
     # def test_add_order_items(self):

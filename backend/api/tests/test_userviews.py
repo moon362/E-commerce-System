@@ -1,4 +1,6 @@
 # Import necessary modules
+import django
+django.setup()
 from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
@@ -23,30 +25,30 @@ class UserViewsTestCase(APITestCase):
 
     # def test_get_routes(self):
     #     # Test GET request to get API routes
-    #     url = reverse('get-routes')
+    #     url = reverse('token_obtain_pair')
     #     response = self.client.get(url)
     #     self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_register_user(self):
         # Test POST request to register a new user
-        url = reverse('register-user')
+        url = reverse('register')
         data = {
             'name': 'New User',
             'email': 'newuser@example.com',
             'password': 'newpassword'
         }
         response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
     def test_get_user_profile(self):
         # Test GET request to get user profile
-        url = reverse('get-user-profile')
+        url = reverse('user_profile')
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     def test_update_user_profile(self):
         # Test PUT request to update user profile
-        url = reverse('update-user-profile')
+        url = reverse('user_profile_update')
         self.client.credentials(HTTP_AUTHORIZATION=f'Bearer {self.access_token}')
         data = {
             'name': 'Updated Name',
@@ -63,6 +65,6 @@ class UserViewsTestCase(APITestCase):
             email='delete@example.com',
             password='deletepassword'
         )
-        url = reverse('delete-user', args=[user_to_delete.pk])
+        url = reverse('deleteUser', args=[user_to_delete.pk])
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
