@@ -43,6 +43,7 @@ jobs:
         run: |
          cd backend
          export DJANGO_SETTINGS_MODULE=backend.settings
+         python manage.py migrate --noinput
          pytest
 
 
