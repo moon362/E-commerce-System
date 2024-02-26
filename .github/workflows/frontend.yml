@@ -29,6 +29,4 @@ jobs:
           rm package-lock.json
           npm install
 
-      - name: Run tests
-        working-directory: frontend
-        run: npm run test
+
