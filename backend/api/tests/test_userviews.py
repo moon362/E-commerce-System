@@ -1,4 +1,6 @@
 # Import necessary modules
+import django
+django.setup()
 from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
