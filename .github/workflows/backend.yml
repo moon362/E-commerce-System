@@ -33,11 +33,15 @@ jobs:
           pip install -r backend/requirements.txt
           
       - name: Set up Django settings module
-        working-directory: backend
-        run: export DJANGO_SETTINGS_MODULE=backend.settings
+      
+        run: |
+         cd backend 
+         export DJANGO_SETTINGS_MODULE=backend.settings
 
       - name: Run Test
-        working-directory: backend
-        run: pytest
+       
+        run: |
+         cd backend
+         pytest
 
 
