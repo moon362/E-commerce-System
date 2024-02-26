@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/SearchBox.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CartAPI.html">CartAPI</a><ul class='methods'><li data-type='method'><a href="CartAPI.html#fetchProduct">fetchProduct</a></li></ul></li><li><a href="OrderAPI.html">OrderAPI</a></li></ul><h3>Modules</h3><ul><li><a href="module-CartScreen.html">CartScreen</a><ul class='methods'><li data-type='method'><a href="module-CartScreen.html#~CartScreen">CartScreen</a></li></ul></li><li><a href="module-CartSlice.html">CartSlice</a><ul class='methods'><li data-type='method'><a href="module-CartSlice.html#.addToCart">addToCart</a></li><li data-type='method'><a href="module-CartSlice.html#.removeFromCart">removeFromCart</a></li><li data-type='method'><a href="module-CartSlice.html#.savePaymentMethod">savePaymentMethod</a></li><li data-type='method'><a href="module-CartSlice.html#.saveShippingAddress">saveShippingAddress</a></li></ul></li><li><a href="module-Loader.html">Loader</a><ul class='methods'><li data-type='method'><a href="module-Loader.html#.Loader">Loader</a></li></ul></li><li><a href="module-LoginScreen.html">LoginScreen</a><ul class='methods'><li data-type='method'><a href="module-LoginScreen.html#~LoginScreen">LoginScreen</a></li></ul></li><li><a href="module-OrderScreen.html">OrderScreen</a></li><li><a href="module-ProductSlice.html">ProductSlice</a><ul class='methods'><li data-type='method'><a href="module-ProductSlice.html#.createReview">createReview</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchProductDetails">fetchProductDetails</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchProductList">fetchProductList</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchTopRatedProducts">fetchTopRatedProducts</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html"></a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormContainer">FormContainer</a></li><li><a href="global.html#PaymentScreen">PaymentScreen</a></li><li><a href="global.html#PlaceOrderScreen">PlaceOrderScreen</a></li><li><a href="global.html#Product">Product</a></li><li><a href="global.html#ProductCarousel">ProductCarousel</a></li><li><a href="global.html#ProfileScreen">ProfileScreen</a></li><li><a href="global.html#Rating">Rating</a></li><li><a href="global.html#SearchBox">SearchBox</a></li><li><a href="global.html#ShippingScreen">ShippingScreen</a></li><li><a href="global.html#cartAPI">cartAPI</a></li><li><a href="global.html#createOrder">createOrder</a></li><li><a href="global.html#deliverOrder">deliverOrder</a></li><li><a href="global.html#getOrderDetails">getOrderDetails</a></li><li><a href="global.html#initialState">initialState</a></li><li><a href="global.html#listMyOrders">listMyOrders</a></li><li><a href="global.html#listOrders">listOrders</a></li><li><a href="global.html#orderSlice">orderSlice</a></li><li><a href="global.html#payOrder">payOrder</a></li><li><a href="global.html#product_screen">product_screen</a></li><li><a href="global.html#useStyles">useStyles</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/SearchBox.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
+import { Box, InputBase, IconButton } from "@material-ui/core";
+import { Search as SearchIcon } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/core/styles";
+
+// Styles using Material-UI makeStyles
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: "#fff",
+    boxShadow: "0 0 3px 1px rgba(0, 0, 0, 0.1)",
+    width: "100%",
+  },
+  input: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+    fontSize: "1rem",
+  },
+  iconButton: {
+    padding: theme.spacing(1),
+    backgroundColor: "grey",
+    color: "#fff",
+    "&amp;:hover": {
+      backgroundColor: "black",
+    },
+  },
+}));
+
+/**
+ * Functional component representing a search box.
+ * @component
+ * @returns {JSX.Element} SearchBox component
+ */
+function SearchBox() {
+  const classes = useStyles();
+  const [keyword, setKeyword] = useState(""); // State to hold the search keyword
+  const history = useHistory();
+
+  /**
+   * Handles form submission to perform a search.
+   * @param {object} e - The event object.
+   * @returns {void}
+   */
+  const submitHandler = (e) => {
+    e.preventDefault();
+    // Redirect to the search results page with the specified keyword and page number
+    history.push(`/?keyword=${keyword}&amp;page=1`);
+  };
+
+  return (
+    // Search box form
+    &lt;Box component="form" onSubmit={submitHandler} className={classes.root}>
+      {/* Input field for entering the search keyword */}
+      &lt;InputBase
+        placeholder="Search for products..."
+        className={classes.input}
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
+      />
+      {/* Search button */}
+      &lt;IconButton
+        type="submit"
+        className={classes.iconButton}
+        aria-label="search"
+      >
+        &lt;SearchIcon />
+      &lt;/IconButton>
+    &lt;/Box>
+  );
+}
+
+export default SearchBox;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sun Feb 25 2024 23:41:33 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

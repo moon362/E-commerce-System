@@ -1,3 +1,5 @@
+
+
 # E-commerce-System
 # Bug Hunters
 We, as students of the Department of Computer Science and Engineering at Jahangirnagar University, are currently working on an exciting project named the E-commerce System. This project aims to create a robust and user-friendly online platform that facilitates seamless shopping experiences for customers. With a focus on features such as secure payment gateways, advanced search functionalities, and efficient order tracking.
@@ -77,3 +79,37 @@ Feel free to explore these resources for a deeper understanding of Agile Scrum a
 
 ---
 Feel free to modify this README file as needed to suit your specific project requirements. Good luck with your Agile Scrum endeavors!
+=======
+
+# Dummy project
+
+run this project and add your feature 
+
+## How to use
+
+
+#### cd to the backend folder and  put this into terminal
+```npm
+ pip install -r requirements.txt
+
+```
+#### to run backend 
+```npm
+ python manage.py runserver
+
+```
+#### cd to the frontend folder and  put this into terminal
+```npm
+ npm install
+
+```
+#### to run the frontend app
+```npm
+npm start
+
+```
+
+
+## 🔗 Links of Documentation
+[![docunentation](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsWg3SzjybTDtoPXox6csFRQkpt9TUa5ZnaQ&usqp=CAU)](https://ecommerce-frontend-docs.netlify.app/)
+g

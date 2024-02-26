@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/CheckoutSteps.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CartAPI.html">CartAPI</a><ul class='methods'><li data-type='method'><a href="CartAPI.html#fetchProduct">fetchProduct</a></li></ul></li><li><a href="OrderAPI.html">OrderAPI</a></li></ul><h3>Modules</h3><ul><li><a href="module-CartScreen.html">CartScreen</a><ul class='methods'><li data-type='method'><a href="module-CartScreen.html#~CartScreen">CartScreen</a></li></ul></li><li><a href="module-CartSlice.html">CartSlice</a><ul class='methods'><li data-type='method'><a href="module-CartSlice.html#.addToCart">addToCart</a></li><li data-type='method'><a href="module-CartSlice.html#.removeFromCart">removeFromCart</a></li><li data-type='method'><a href="module-CartSlice.html#.savePaymentMethod">savePaymentMethod</a></li><li data-type='method'><a href="module-CartSlice.html#.saveShippingAddress">saveShippingAddress</a></li></ul></li><li><a href="module-Loader.html">Loader</a><ul class='methods'><li data-type='method'><a href="module-Loader.html#.Loader">Loader</a></li></ul></li><li><a href="module-LoginScreen.html">LoginScreen</a><ul class='methods'><li data-type='method'><a href="module-LoginScreen.html#~LoginScreen">LoginScreen</a></li></ul></li><li><a href="module-OrderScreen.html">OrderScreen</a></li><li><a href="module-ProductSlice.html">ProductSlice</a><ul class='methods'><li data-type='method'><a href="module-ProductSlice.html#.createReview">createReview</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchProductDetails">fetchProductDetails</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchProductList">fetchProductList</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchTopRatedProducts">fetchTopRatedProducts</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html"></a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormContainer">FormContainer</a></li><li><a href="global.html#PaymentScreen">PaymentScreen</a></li><li><a href="global.html#PlaceOrderScreen">PlaceOrderScreen</a></li><li><a href="global.html#Product">Product</a></li><li><a href="global.html#ProductCarousel">ProductCarousel</a></li><li><a href="global.html#ProfileScreen">ProfileScreen</a></li><li><a href="global.html#Rating">Rating</a></li><li><a href="global.html#SearchBox">SearchBox</a></li><li><a href="global.html#ShippingScreen">ShippingScreen</a></li><li><a href="global.html#cartAPI">cartAPI</a></li><li><a href="global.html#createOrder">createOrder</a></li><li><a href="global.html#deliverOrder">deliverOrder</a></li><li><a href="global.html#getOrderDetails">getOrderDetails</a></li><li><a href="global.html#initialState">initialState</a></li><li><a href="global.html#listMyOrders">listMyOrders</a></li><li><a href="global.html#listOrders">listOrders</a></li><li><a href="global.html#orderSlice">orderSlice</a></li><li><a href="global.html#payOrder">payOrder</a></li><li><a href="global.html#product_screen">product_screen</a></li><li><a href="global.html#useStyles">useStyles</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/CheckoutSteps.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from "react";
+import { Link } from "react-router-dom";
+import { Breadcrumbs, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+/**
+ * @component
+ * @description CheckoutSteps component displays navigation steps for the checkout process.
+ * @param {Object} props - React component props.
+ * @param {boolean} props.step1 - Indicates whether Step 1 (Login) is completed.
+ * @param {boolean} props.step2 - Indicates whether Step 2 (Shipping) is completed.
+ * @param {boolean} props.step3 - Indicates whether Step 3 (Place Order) is completed.
+ * @returns {JSX.Element} - React component
+ */
+const useStyles = makeStyles((theme) => ({
+  link: {
+    display: "flex",
+    color: theme.palette.grey[600],
+    textDecoration: "none",
+  },
+  activeLink: {
+    color: theme.palette.primary.main,
+  },
+}));
+
+function CheckoutSteps({ step1, step2, step3 }) {
+  const classes = useStyles();
+
+  return (
+    &lt;Breadcrumbs aria-label="breadcrumb">
+      {/* Step 1: Login */}
+      &lt;Link
+        to="/login"
+        className={`${classes.link} ${step1 ? classes.activeLink : ""}`}
+      >
+        {step1 ? "Login" : "Login (Incomplete)"}
+      &lt;/Link>
+
+      {/* Step 2: Shipping */}
+      &lt;Link
+        to="/shipping"
+        className={`${classes.link} ${step2 ? classes.activeLink : ""}`}
+      >
+        {step2 ? "Shipping" : "Shipping (Incomplete)"}
+      &lt;/Link>
+
+      {/* Step 3: Place Order */}
+      &lt;Typography
+        color={step3 ? "textPrimary" : "textSecondary"}
+        className={`${classes.link} ${step3 ? classes.activeLink : ""}`}
+      >
+        {step3 ? "Place Order" : "Place Order (Incomplete)"}
+      &lt;/Typography>
+    &lt;/Breadcrumbs>
+  );
+}
+
+export default CheckoutSteps;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sun Feb 25 2024 23:41:34 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>

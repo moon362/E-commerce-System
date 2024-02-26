@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>screens/LoginScreen.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <input type="text" id="nav-search" placeholder="Search" />
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CartAPI.html">CartAPI</a><ul class='methods'><li data-type='method'><a href="CartAPI.html#fetchProduct">fetchProduct</a></li></ul></li><li><a href="OrderAPI.html">OrderAPI</a></li></ul><h3>Modules</h3><ul><li><a href="module-CartScreen.html">CartScreen</a><ul class='methods'><li data-type='method'><a href="module-CartScreen.html#~CartScreen">CartScreen</a></li></ul></li><li><a href="module-CartSlice.html">CartSlice</a><ul class='methods'><li data-type='method'><a href="module-CartSlice.html#.addToCart">addToCart</a></li><li data-type='method'><a href="module-CartSlice.html#.removeFromCart">removeFromCart</a></li><li data-type='method'><a href="module-CartSlice.html#.savePaymentMethod">savePaymentMethod</a></li><li data-type='method'><a href="module-CartSlice.html#.saveShippingAddress">saveShippingAddress</a></li></ul></li><li><a href="module-Loader.html">Loader</a><ul class='methods'><li data-type='method'><a href="module-Loader.html#.Loader">Loader</a></li></ul></li><li><a href="module-LoginScreen.html">LoginScreen</a><ul class='methods'><li data-type='method'><a href="module-LoginScreen.html#~LoginScreen">LoginScreen</a></li></ul></li><li><a href="module-OrderScreen.html">OrderScreen</a></li><li><a href="module-ProductSlice.html">ProductSlice</a><ul class='methods'><li data-type='method'><a href="module-ProductSlice.html#.createReview">createReview</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchProductDetails">fetchProductDetails</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchProductList">fetchProductList</a></li><li data-type='method'><a href="module-ProductSlice.html#.fetchTopRatedProducts">fetchTopRatedProducts</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html"></a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#FormContainer">FormContainer</a></li><li><a href="global.html#PaymentScreen">PaymentScreen</a></li><li><a href="global.html#PlaceOrderScreen">PlaceOrderScreen</a></li><li><a href="global.html#Product">Product</a></li><li><a href="global.html#ProductCarousel">ProductCarousel</a></li><li><a href="global.html#ProfileScreen">ProfileScreen</a></li><li><a href="global.html#Rating">Rating</a></li><li><a href="global.html#SearchBox">SearchBox</a></li><li><a href="global.html#ShippingScreen">ShippingScreen</a></li><li><a href="global.html#cartAPI">cartAPI</a></li><li><a href="global.html#createOrder">createOrder</a></li><li><a href="global.html#deliverOrder">deliverOrder</a></li><li><a href="global.html#getOrderDetails">getOrderDetails</a></li><li><a href="global.html#initialState">initialState</a></li><li><a href="global.html#listMyOrders">listMyOrders</a></li><li><a href="global.html#listOrders">listOrders</a></li><li><a href="global.html#orderSlice">orderSlice</a></li><li><a href="global.html#payOrder">payOrder</a></li><li><a href="global.html#product_screen">product_screen</a></li><li><a href="global.html#useStyles">useStyles</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">screens/LoginScreen.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * LoginScreen component for user login functionality.
+ * @module LoginScreen
+ * @param {Object} props - React component props.
+ * @param {Object} props.location - The current location object.
+ * @param {Object} props.history - The history object for navigation.
+ * @returns {JSX.Element} - Rendered component.
+ */
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Grid, TextField, Button, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../redux/slices/userSlice";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+import FormContainer from "../components/FormContainer";
+
+/**
+ * Custom styles for the LoginScreen component.
+ * @constant
+ * @type {Object}
+ */
+const useStyles = makeStyles((theme) => ({
+  form: {
+    width: "100%",
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+/**
+ * React functional component for user login.
+ * @function
+ * @param {Object} props - React component props.
+ * @returns {JSX.Element} - Rendered component.
+ */
+function LoginScreen({ location, history }) {
+  // Styles
+  const classes = useStyles();
+
+  // State
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // Redux
+  const dispatch = useDispatch();
+
+  // Redirect path
+  const redirect = location.search ? location.search.split("=")[1] : "/";
+
+  // Redux state
+  const userLogin = useSelector((state) => state.user);
+  const { userDetails, loading, error } = userLogin;
+
+  // useEffect to redirect on successful login
+  useEffect(() => {
+    if (userDetails) {
+      history.replace(redirect);
+    }
+  }, [history, userDetails, redirect]);
+
+  /**
+   * Form submission handler.
+   * @function
+   * @param {Object} e - Event object.
+   */
+  const submit_handler = (e) => {
+    e.preventDefault();
+    console.log(email, password);
+    dispatch(login(email, password));
+  };
+
+  // Component rendering
+  return (
+    &lt;FormContainer>
+      &lt;Typography component="h1" style={{ fontWeight: "bold" }} variant="h5">
+        Sign In
+      &lt;/Typography>
+      {error &amp;&amp; &lt;Message variant="danger">{error}&lt;/Message>}
+      {loading &amp;&amp; &lt;Loader />}
+      &lt;form className={classes.form} onSubmit={submit_handler}>
+        &lt;Grid container spacing={2}>
+          {/* Email input */}
+          &lt;Grid item xs={12}>
+            &lt;TextField
+              variant="filled"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          &lt;/Grid>
+          {/* Password input */}
+          &lt;Grid item xs={12}>
+            &lt;TextField
+              variant="filled"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          &lt;/Grid>
+        &lt;/Grid>
+        {/* Submit button */}
+        &lt;Button
+          type="submit"
+          fullWidth
+          variant="outlined"
+          color="primary"
+          className={classes.submit}
+        >
+          Sign In
+        &lt;/Button>
+        {/* Registration link */}
+        &lt;Grid container justifyContent="flex-start">
+          &lt;Grid item>
+            New Customer?{" "}
+            &lt;Link
+              to={redirect ? `/register?redirect=${redirect}` : "/register"}
+              variant="body2"
+            >
+              Register
+            &lt;/Link>
+          &lt;/Grid>
+        &lt;/Grid>
+      &lt;/form>
+    &lt;/FormContainer>
+  );
+}
+
+export default LoginScreen;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.2</a> on Sun Feb 25 2024 23:41:33 GMT+0600 (Bangladesh Standard Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+<script src="scripts/search.js" defer></script>
+
+
+
+</body>
+</html>
