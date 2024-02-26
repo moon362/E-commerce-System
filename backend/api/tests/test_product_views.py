@@ -6,6 +6,8 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from api.models import Product, Review
 from django.contrib.auth.models import User
+import uuid
+
 
 @pytest.fixture
 def api_client():
@@ -13,7 +15,8 @@ def api_client():
 
 @pytest.fixture
 def user():
-    return User.objects.create_user(username='testuse', password='testpasword')
+    username = f'testuser_{uuid.uuid4().hex[:10]}'  # Generating a unique username
+    return User.objects.create_user(username=username, password='testpassword')
 
 @pytest.mark.django_db
 def test_get_products(api_client):
