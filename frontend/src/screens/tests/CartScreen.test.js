@@ -4,7 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import CartScreen from '../screens/CartScreen';
+import CartScreen from '../CartScreen';
 
 describe('CartScreen Component', () => {
   const mockStore = configureStore();
